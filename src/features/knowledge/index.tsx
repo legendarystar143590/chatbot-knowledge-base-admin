@@ -4,26 +4,19 @@ import { useDispatch, useSelector } from "react-redux"
 import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
 import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
-import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon'
 import SearchBar from "../../components/Input/SearchBar"
+import { CheckIcon } from "@heroicons/react/24/solid"
+import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 
 type PropTypes = {
-  removeFilter: Function,
-  applyFilter: Function,
   applySearch: Function
 }
 
-const TopSideButtons = ({ removeFilter, applyFilter, applySearch }: PropTypes) => {
+const TopSideButtons = ({ applySearch }: PropTypes) => {
 
   const [searchText, setSearchText] = useState("")
-  const locationFilters = ["Paris", "London", "Canada", "Peru", "Tokyo"]
-
-  const showFiltersAndApply = (params: string) => {
-    applyFilter(params)
-  }
 
   const removeAppliedFilter = () => {
-    removeFilter()
     setSearchText("")
   }
 
@@ -49,25 +42,16 @@ function KnowledgeBase() {
 
   const [trans, setTrans] = useState(RECENT_TRANSACTIONS)
 
-  const removeFilter = () => {
-    setTrans(RECENT_TRANSACTIONS)
-  }
-
-  const applyFilter = (params: string) => {
-    let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.location == params })
-    setTrans(filteredTransactions)
-  }
-
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.email.toLowerCase().includes(value.toLowerCase()) || t.email.toLowerCase().includes(value.toLowerCase()) })
+    let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.name.toLowerCase().includes(value.toLowerCase()) || t.name.toLowerCase().includes(value.toLowerCase()) })
     setTrans(filteredTransactions)
   }
 
   return (
     <>
 
-      <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} applyFilter={applyFilter} removeFilter={removeFilter} />}>
+      <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
@@ -75,10 +59,9 @@ function KnowledgeBase() {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Email Id</th>
-                <th>Location</th>
-                <th>Amount</th>
-                <th>Transaction Date</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
@@ -87,21 +70,27 @@ function KnowledgeBase() {
                   return (
                     <tr key={k}>
                       <td>
-                        <div className="flex items-center space-x-3">
-                          <div className="avatar">
-                            <div className="mask mask-circle w-12 h-12">
-                              <img src={l.avatar} alt="Avatar" />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="font-bold">{l.name}</div>
-                          </div>
-                        </div>
+                        <div className="font-bold">{l.name}</div>
                       </td>
-                      <td>{l.email}</td>
-                      <td>{l.location}</td>
-                      <td>${l.amount}</td>
-                      <td>{moment(l.date).format("D MMM")}</td>
+                      <td>{l.type}</td>
+                      <td>
+                        {
+                          l.status === 'pending' && (
+                            <span className="loading loading-spinner text-primary"></span>
+                          )
+                        }
+                        {
+                          l.status === 'success' && (
+                            <CheckIcon className="w-8 h-8 text-accent" />
+                          )
+                        }
+                        {
+                          l.status === 'fail' && (
+                            <XMarkIcon className="w-8 h-8 text-secondary" />
+                          )
+                        }
+                      </td>
+                      <td>{l.date}</td>
                     </tr>
                   )
                 })
