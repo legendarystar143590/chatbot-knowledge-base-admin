@@ -1,17 +1,16 @@
-import moment from "moment"
+// import moment from "moment"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../../components/Cards/TitleCard"
-import { PRE_PROMPTS } from "../../../utils/dummyData"
 import SearchBar from "../../../components/Input/SearchBar"
-import { CheckIcon } from "@heroicons/react/24/solid"
-import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon"
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
 import { openModal } from "../../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../../utils/globalConstantUtil"
+import { AppDispatch, RootState } from "../../../app/store"
+import { getPromptsContent } from "../promptsSlice"
 
 type PropTypes = {
   applySearch: Function
@@ -50,17 +49,26 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   )
 }
 
-
 function PrePrompts() {
 
-  const dispatch = useDispatch()
+  const { prompts } = useSelector((state: RootState) => state.prompt)
+  const dispatch: AppDispatch = useDispatch()
 
-  const [prompts, setPrompts] = useState(PRE_PROMPTS)
+  const [prePrompts, setPrePrompts] = useState([{
+    id: "",
+    title: "",
+    prompt: "",
+    date: ""
+  }])
+
+  useEffect(() => {
+    dispatch(getPromptsContent())
+  }, [])
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = PRE_PROMPTS.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.title.toLowerCase().includes(value.toLowerCase()) })
-    setPrompts(filteredPrompts)
+    let filteredPrompts = prompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.title.toLowerCase().includes(value.toLowerCase()) })
+    setPrePrompts(filteredPrompts)
   }
 
   const deleteCurrentPrompt = (index: string) => {
@@ -79,7 +87,6 @@ function PrePrompts() {
 
   return (
     <>
-
       <TitleCard title="PrePrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
         {/* Team Member list in table format loaded constant */}
@@ -95,7 +102,7 @@ function PrePrompts() {
             </thead>
             <tbody>
               {
-                prompts.map((l, k) => {
+                prePrompts.map((l, k) => {
                   return (
                     <tr key={k}>
                       <td>

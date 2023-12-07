@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewPrompt } from "../promptSlice"
+import { addNewPrompt } from "../promptsSlice"
 
 const INITIAL_PROMPT_OBJ = {
   title: "",

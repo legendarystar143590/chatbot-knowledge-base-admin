@@ -14,7 +14,7 @@ export const headerSlice = createSlice({
     },
 
 
-    removeNotificationMessage: (state, action) => {
+    removeNotificationMessage: (state) => {
       state.newNotificationMessage = ""
     },
 

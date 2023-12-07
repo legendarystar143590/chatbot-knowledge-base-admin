@@ -1,7 +1,7 @@
-import moment from "moment"
+// import moment from "moment"
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { showNotification } from "../common/headerSlice"
+import { useDispatch } from "react-redux"
+// import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
 import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
 import SearchBar from "../../components/Input/SearchBar"
@@ -72,7 +72,7 @@ function KnowledgeBase() {
   const deleteCurrentKnowledge = (index: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index }
+      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, index }
     }))
   }
 
