@@ -1,16 +1,15 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { showNotification } from "../common/headerSlice"
-import TitleCard from "../../components/Cards/TitleCard"
-import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
-import SearchBar from "../../components/Input/SearchBar"
+// import { showNotification } from "../common/headerSlice"
+import TitleCard from "../../../components/Cards/TitleCard"
+import { RECENT_TRANSACTIONS } from "../../../utils/dummyData"
+import SearchBar from "../../../components/Input/SearchBar"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
-import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
-import { openModal } from "../common/modalSlice"
-import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
+import { openModal } from "../../common/modalSlice"
+import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../../utils/globalConstantUtil"
 
 type PropTypes = {
   applySearch: Function
@@ -35,16 +34,13 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   return (
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-      <button className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6">
-        <PlusSmallIcon className="w-6 h-6 sm:hidden" />
-        <span className="hidden sm:block">Add New</span>
-      </button>
+      <button className="btn px-6 btn-sm normal-case btn-primary text-white">Add New</button>
     </div>
   )
 }
 
 
-function KnowledgeBase() {
+function CloserPrompts() {
 
   const dispatch = useDispatch()
 
@@ -79,7 +75,7 @@ function KnowledgeBase() {
   return (
     <>
 
-      <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+      <TitleCard title="CloserPrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
@@ -118,4 +114,4 @@ function KnowledgeBase() {
 }
 
 
-export default KnowledgeBase
+export default CloserPrompts
