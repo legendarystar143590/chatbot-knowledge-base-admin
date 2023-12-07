@@ -12,12 +12,12 @@ function TitleCard({ title, children, topMargin, TopSideButtons }: PropTypes) {
     <div className={"card w-full p-6 bg-base-100 shadow-xl " + (topMargin || "mt-6")}>
 
       {/* Title for Card */}
-      <Subtitle styleClass={TopSideButtons ? "flex items-center justify-between" : ""}>
+      <Subtitle styleClass={TopSideButtons ? "flex items-center justify-between flex-col sm:flex-row gap-3" : ""}>
         {title}
 
         {/* Top side button, show only if present */}
         {
-          TopSideButtons && <div className="inline-block float-right">{TopSideButtons}</div>
+          TopSideButtons && <div className="flex items-center">{TopSideButtons}</div>
         }
       </Subtitle>
 
