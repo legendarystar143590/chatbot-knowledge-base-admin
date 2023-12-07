@@ -1,16 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { PROMPT_ADDRESS } from '../../utils/serverURL';
 
 export const getPromptsContent = createAsyncThunk('/prompts/content', async () => {
-  const response = await axios.get('/api/users?page=2', {})
+  const response = await axios.get(PROMPT_ADDRESS.GET_ALL_PRE_PROMPTS, {})
+  console.log(response);
   return response.data;
 })
 
-export const leadsSlice = createSlice({
-  name: 'leads',
+export const promptsSlice = createSlice({
+  name: 'prompts',
   initialState: {
     isLoading: false,
-    prompts: [{}]
+    prompts: [{
+      id: "",
+      title: "",
+      prompt: "",
+      date: ""
+    }]
   },
   reducers: {
     addNewPrompt: (state, action) => {
@@ -28,6 +35,7 @@ export const leadsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getPromptsContent.fulfilled, (state, { payload }) => {
+      console.log(payload)
       state.prompts = payload.data
       state.isLoading = false
     })
@@ -37,6 +45,6 @@ export const leadsSlice = createSlice({
   }
 })
 
-export const { addNewPrompt, deletePrompt } = leadsSlice.actions
+export const { addNewPrompt, deletePrompt } = promptsSlice.actions
 
-export default leadsSlice.reducer
+export default promptsSlice.reducer

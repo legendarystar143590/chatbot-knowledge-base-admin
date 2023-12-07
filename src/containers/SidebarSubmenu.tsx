@@ -1,7 +1,7 @@
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SubMenu } from '../utils/type'
+import { SubMenu } from '../utils/Type'
 
 type PropTypes = {
 	submenu?: SubMenu[],

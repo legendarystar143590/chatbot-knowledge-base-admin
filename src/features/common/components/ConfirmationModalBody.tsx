@@ -20,7 +20,7 @@ function ConfirmationModalBody({ extraObject, closeModal }: PropTypes) {
 
 
   const proceedWithYes = async () => {
-    if (type === CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE) {
+    if (type === CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE) {
       // positive response, call api or dispatch redux function
       dispatch(showNotification({ message: "Lead Deleted!", status: 1 }))
     }

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import headerSlice from '../features/common/headerSlice'
 import modalSlice from '../features/common/modalSlice'
+import promptsSlice from '../features/prompts/promptsSlice'
 
 const combinedReducer = {
   header: headerSlice,
-  modal: modalSlice
+  modal: modalSlice,
+  prompt: promptsSlice
 }
 
 export const store = configureStore({
