@@ -1,4 +1,5 @@
 import LeftSidebar from "./LeftSidebar";
+import ModalLayout from "./ModalLayout";
 import PageContent from "./PageContent";
 
 const Layout = () => {
@@ -9,6 +10,8 @@ const Layout = () => {
         <PageContent />
         <LeftSidebar />
       </div>
+
+      <ModalLayout />
     </>
   )
 }

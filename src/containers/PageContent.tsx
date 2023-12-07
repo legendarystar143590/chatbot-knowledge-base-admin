@@ -6,25 +6,26 @@ import SuspenseContent from "./SuspenseContent"
 import { useSelector } from 'react-redux'
 import { useEffect, useRef } from "react"
 import Header from './Header'
+import { RootState } from '../app/store'
 
 const Page404 = lazy(() => import('../pages/protected/404'))
 
 
 function PageContent() {
-  const mainContentRef = useRef(null);
-  // const { pageTitle } = useSelector(state => state.header)
+  const mainContentRef = useRef<HTMLDivElement>(null);
+  const { pageTitle } = useSelector((state: RootState) => state.header)
 
 
   // Scroll back to top on new page load
-  // useEffect(() => {
-  //   mainContentRef.current?.scroll({
-  //     top: 0,
-  //     behavior: "smooth"
-  //   });
-  // }, [pageTitle])
+  useEffect(() => {
+    mainContentRef.current?.scroll({
+      top: 0,
+      behavior: "smooth"
+    });
+  }, [pageTitle])
 
   return (
-    <div className="drawer-content flex flex-col ">
+    <div className="drawer-content h-screen flex flex-col ">
       <Header />
       <main className="flex-1 overflow-y-auto pt-8 px-6  bg-base-200" ref={mainContentRef}>
         <Suspense fallback={<SuspenseContent />}>

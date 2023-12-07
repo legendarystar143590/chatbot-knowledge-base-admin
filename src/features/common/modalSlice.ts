@@ -7,7 +7,12 @@ export const modalSlice = createSlice({
     isOpen: false,   // modal state management for opening closing
     bodyType: "",   // modal content management
     size: "",   // modal content management
-    extraObject: {},
+    extraObject: {
+      message: "",
+      type: "",
+      _id: "",
+      index: 0
+    },
   },
   reducers: {
 
@@ -24,7 +29,12 @@ export const modalSlice = createSlice({
       state.isOpen = false
       state.bodyType = ""
       state.title = ""
-      state.extraObject = {}
+      state.extraObject = {
+        message: "",
+        type: "",
+        _id: "",
+        index: 0
+      }
     },
 
   }
