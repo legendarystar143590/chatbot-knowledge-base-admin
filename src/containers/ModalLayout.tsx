@@ -2,7 +2,8 @@ import { MODAL_BODY_TYPES } from '../utils/globalConstantUtil'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from '../features/common/modalSlice'
 import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
-import AddPromptModalBody from '../features/prompts/components/AddPromptModalBody'
+import AddPrePromptModalBody from '../features/prompts/components/AddPrePromptModalBody'
+import AddCloserPromptModalBody from '../features/prompts/components/AddCloserPromptModalBody'
 import AddKnowledgeModalBody from '../features/knowledge/components/AddKnowledgeModalBody'
 import { RootState } from '../app/store'
 
@@ -28,8 +29,10 @@ function ModalLayout() {
           {/* Loading modal body according to different modal type */}
           {
             {
-              [MODAL_BODY_TYPES.PROMPT_ADD_NEW]: <AddPromptModalBody closeModal={close} extraObject={extraObject} />,
-              [MODAL_BODY_TYPES.PROMPT_UPDATE]: <AddPromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.PRE_PROMPT_ADD_NEW]: <AddPrePromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.PRE_PROMPT_UPDATE]: <AddPrePromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.CLOSER_PROMPT_ADD_NEW]: <AddCloserPromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.CLOSER_PROMPT_UPDATE]: <AddCloserPromptModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW]: <AddKnowledgeModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.CONFIRMATION]: <ConfirmationModalBody extraObject={extraObject} closeModal={close} />,
               [MODAL_BODY_TYPES.DEFAULT]: <div></div>

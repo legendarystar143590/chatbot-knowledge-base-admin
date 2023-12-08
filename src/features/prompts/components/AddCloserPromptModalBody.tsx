@@ -3,12 +3,11 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewPrompt } from "../promptsSlice"
+import { addNewCloserPrompt } from "../closerPromptsSlice"
 import { AppDispatch } from "../../../app/store"
 
-const INITIAL_PROMPT_OBJ = {
+const INITIAL_CLOSER_PROMPT_OBJ = {
   id: "",
-  title: "",
   prompt: ""
 }
 
@@ -21,22 +20,20 @@ type PropTypes = {
   }
 }
 
-function AddPromptModalBody({ closeModal, extraObject }: PropTypes) {
+function AddCloserPromptModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_PROMPT_OBJ)
+  const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_CLOSER_PROMPT_OBJ)
 
   const saveNewPrompt = () => {
-    if (promptObj.title.trim() === "") return setErrorMessage("Title is required!")
-    else if (promptObj.prompt.trim() === "") return setErrorMessage("Prompt is required!")
+    if (promptObj.prompt.trim() === "") return setErrorMessage("Prompt is required!")
     else {
       let newPrompt = {
         id: promptObj.id,
-        title: promptObj.title,
         prompt: promptObj.prompt,
       }
-      dispatch(addNewPrompt(newPrompt))
+      dispatch(addNewCloserPrompt(newPrompt))
         .then(res => {
           console.log(res)
           dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
@@ -53,8 +50,6 @@ function AddPromptModalBody({ closeModal, extraObject }: PropTypes) {
 
   return (
     <>
-      <InputText type="text" defaultValue={promptObj.title} updateType="title" containerStyle="mt-4" labelTitle="Title" updateFormValue={updateFormValue} />
-
       <InputText type="text" defaultValue={promptObj.prompt} updateType="prompt" containerStyle="mt-4" labelTitle="Prompt" updateFormValue={updateFormValue} />
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
@@ -66,4 +61,4 @@ function AddPromptModalBody({ closeModal, extraObject }: PropTypes) {
   )
 }
 
-export default AddPromptModalBody
+export default AddCloserPromptModalBody

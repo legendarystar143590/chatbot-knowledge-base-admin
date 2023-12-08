@@ -11,7 +11,7 @@ import { FaceFrownIcon } from "@heroicons/react/24/outline"
 import { openModal } from "../../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../../app/store"
-import { getPromptsContent } from "../promptsSlice"
+import { getPrePromptsContent } from "../prePromptsSlice"
 import { Prompt } from "../../../utils/Type"
 
 type PropTypes = {
@@ -29,7 +29,7 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   }
 
   const openAddNewPromptModal = () => {
-    dispatch(openModal({ title: "Add New Prompt", bodyType: MODAL_BODY_TYPES.PROMPT_ADD_NEW }))
+    dispatch(openModal({ title: "Add New Prompt", bodyType: MODAL_BODY_TYPES.PRE_PROMPT_ADD_NEW }))
   }
 
   useEffect(() => {
@@ -53,34 +53,34 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
 
 function PrePrompts() {
 
-  const { prompts, isLoading } = useSelector((state: RootState) => state.prompt)
+  const { prePrompts, isLoading } = useSelector((state: RootState) => state.prePrompt)
   const dispatch: AppDispatch = useDispatch()
 
-  const [prePrompts, setPrePrompts] = useState(prompts)
+  const [prompts, setPrompts] = useState(prePrompts)
 
   useEffect(() => {
-    dispatch(getPromptsContent())
+    dispatch(getPrePromptsContent())
   }, [])
 
   useEffect(() => {
-    setPrePrompts(prompts);
-  }, [prompts])
+    setPrompts(prePrompts);
+  }, [prePrompts])
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = prompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
-    setPrePrompts(filteredPrompts)
+    let filteredPrompts = prePrompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
+    setPrompts(filteredPrompts)
   }
 
   const deleteCurrentPrompt = (id: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this prompt?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, id }
+      extraObject: { message: `Are you sure you want to delete this prompt?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PRE_PROMPT_DELETE, id }
     }))
   }
 
   const editCurrentPrompt = (prompt: Prompt) => {
-    dispatch(openModal({ title: "Edit Prompt", bodyType: MODAL_BODY_TYPES.PROMPT_UPDATE, extraObject: prompt }))
+    dispatch(openModal({ title: "Edit Prompt", bodyType: MODAL_BODY_TYPES.PRE_PROMPT_UPDATE, extraObject: prompt }))
   }
 
   if (isLoading) {
@@ -96,7 +96,7 @@ function PrePrompts() {
 
       {/* Team Member list in table format loaded constant */}
       {
-        prePrompts.length !== 1 || prePrompts[0].title !== "" ? (
+        prompts.length !== 1 || prompts[0].title !== "" ? (
           <div className="overflow-x-auto w-full">
             <table className="table w-full">
               <thead>
@@ -110,7 +110,7 @@ function PrePrompts() {
               </thead>
               <tbody>
                 {
-                  prePrompts.map((l, k) => {
+                  prompts.map((l, k) => {
                     return (
                       <tr key={k}>
                         <td>{k + 1}</td>
