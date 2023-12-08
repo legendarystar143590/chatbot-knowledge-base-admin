@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil'
 import { showNotification } from '../headerSlice'
-import { deletePrompt } from '../../prompts/promptsSlice'
+import { deletePrePrompt } from '../../prompts/prePromptsSlice'
 import { AppDispatch } from '../../../app/store'
 
 type PropTypes = {
@@ -21,9 +21,9 @@ function ConfirmationModalBody({ extraObject, closeModal }: PropTypes) {
 
 
   const proceedWithYes = async () => {
-    if (type === CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE) {
+    if (type === CONFIRMATION_MODAL_CLOSE_TYPES.PRE_PROMPT_DELETE) {
       // positive response, call api or dispatch redux function
-      dispatch(deletePrompt(id))
+      dispatch(deletePrePrompt(id))
         .then(res => {
           console.log(res);
           dispatch(showNotification({ message: "PrePromt Deleted!", status: 1 }))

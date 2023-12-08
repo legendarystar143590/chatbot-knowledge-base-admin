@@ -3,7 +3,7 @@ import axios from 'axios'
 import { PROMPT_API } from '../../utils/serverURL';
 import { Prompt } from '../../utils/Type';
 
-export const getPromptsContent = createAsyncThunk('/prompts/content', async () => {
+export const getPrePromptsContent = createAsyncThunk('/preprompts/content', async () => {
   const response = await axios.get(PROMPT_API.GET_PRE_PROMPTS, {
     headers: {
       'ngrok-skip-browser-warning': "1"
@@ -12,7 +12,7 @@ export const getPromptsContent = createAsyncThunk('/prompts/content', async () =
   return response.data;
 })
 
-export const addNewPrompt = createAsyncThunk('/prompts/add', async (prompt: Prompt) => {
+export const addNewPrePrompt = createAsyncThunk('/preprompts/add', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.ADD_PRE_PROMPT, {
     title: prompt.title,
     prompt: prompt.prompt
@@ -20,7 +20,7 @@ export const addNewPrompt = createAsyncThunk('/prompts/add', async (prompt: Prom
   return response.data;
 })
 
-export const updatePrompt = createAsyncThunk('/prompts/update', async (prompt: Prompt) => {
+export const updatePrePrompt = createAsyncThunk('/preprompts/update', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.UPDATE_PRE_PROMPT, {
     id: prompt.id,
     title: prompt.title,
@@ -29,18 +29,18 @@ export const updatePrompt = createAsyncThunk('/prompts/update', async (prompt: P
   return response.data;
 })
 
-export const deletePrompt = createAsyncThunk('/prompts/delete', async (id: string) => {
+export const deletePrePrompt = createAsyncThunk('/preprompts/delete', async (id: string) => {
   const response = await axios.post(PROMPT_API.DELETE_PRE_PROMPT, {
     id: id
   })
   return response.data;
 })
 
-export const promptsSlice = createSlice({
-  name: 'prompts',
+export const prePromptsSlice = createSlice({
+  name: 'prePrompts',
   initialState: {
     isLoading: false,
-    prompts: [{
+    prePrompts: [{
       id: "",
       title: "",
       prompt: "",
@@ -59,47 +59,47 @@ export const promptsSlice = createSlice({
     // }
   },
   extraReducers: (builder) => {
-    builder.addCase(getPromptsContent.pending, (state) => {
+    builder.addCase(getPrePromptsContent.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(getPromptsContent.fulfilled, (state, { payload }) => {
-      state.prompts = payload
+    builder.addCase(getPrePromptsContent.fulfilled, (state, { payload }) => {
+      state.prePrompts = payload
       state.isLoading = false
     })
-    builder.addCase(getPromptsContent.rejected, (state) => {
+    builder.addCase(getPrePromptsContent.rejected, (state) => {
       state.isLoading = false
     })
-    builder.addCase(addNewPrompt.pending, (state) => {
+    builder.addCase(addNewPrePrompt.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(addNewPrompt.fulfilled, (state, { payload }) => {
-      state.prompts = [...state.prompts, payload]
+    builder.addCase(addNewPrePrompt.fulfilled, (state, { payload }) => {
+      state.prePrompts = [...state.prePrompts, payload]
       state.isLoading = false
     })
-    builder.addCase(addNewPrompt.rejected, (state) => {
+    builder.addCase(addNewPrePrompt.rejected, (state) => {
       state.isLoading = false
     })
-    builder.addCase(updatePrompt.pending, (state) => {
+    builder.addCase(updatePrePrompt.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(updatePrompt.fulfilled, (state, { payload }) => {
-      state.prompts = state.prompts.map(prompt => prompt.id === payload.id ? payload : prompt)
+    builder.addCase(updatePrePrompt.fulfilled, (state, { payload }) => {
+      state.prePrompts = state.prePrompts.map(prompt => prompt.id === payload.id ? payload : prompt)
       state.isLoading = false
     })
-    builder.addCase(updatePrompt.rejected, (state) => {
+    builder.addCase(updatePrePrompt.rejected, (state) => {
       state.isLoading = false
     })
-    builder.addCase(deletePrompt.pending, (state) => {
+    builder.addCase(deletePrePrompt.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(deletePrompt.fulfilled, (state, { payload }) => {
-      state.prompts = state.prompts.filter(prompt => prompt.id === payload.id)
+    builder.addCase(deletePrePrompt.fulfilled, (state, { payload }) => {
+      state.prePrompts = state.prePrompts.filter(prompt => prompt.id === payload.id)
       state.isLoading = false
     })
-    builder.addCase(deletePrompt.rejected, (state) => {
+    builder.addCase(deletePrePrompt.rejected, (state) => {
       state.isLoading = false
     })
   }
 })
 
-export default promptsSlice.reducer
+export default prePromptsSlice.reducer
