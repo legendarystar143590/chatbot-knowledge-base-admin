@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
-// import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
 import SearchBar from "../../components/Input/SearchBar"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
@@ -61,23 +60,23 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
 
 function KnowledgeBase() {
 
-  const { knowledge, isLoading } = useSelector((state: RootState) => state.knowledge)
+  const { knowledges, isLoading } = useSelector((state: RootState) => state.knowledge)
   const dispatch: AppDispatch = useDispatch()
 
-  const [knowledges, setKnowledges] = useState(knowledge)
+  const [knowledgeBase, setKnowledgeBase] = useState(knowledges)
 
   useEffect(() => {
     dispatch(getKnowledgeContent());
   }, [])
 
   useEffect(() => {
-    setKnowledges(knowledge)
-  }, [knowledge])
+    setKnowledgeBase(knowledges)
+  }, [knowledges])
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredKnowledges = knowledge.filter((t) => { return t.name.toLowerCase().includes(value.toLowerCase()) || t.name.toLowerCase().includes(value.toLowerCase()) })
-    setKnowledges(filteredKnowledges)
+    let filteredKnowledges = knowledges.filter((t) => { return t.name.toLowerCase().includes(value.toLowerCase()) || t.name.toLowerCase().includes(value.toLowerCase()) })
+    setKnowledgeBase(filteredKnowledges)
   }
 
   const getStatus = (status: string) => {
@@ -93,10 +92,10 @@ function KnowledgeBase() {
     }
   }
 
-  const deleteCurrentKnowledge = (index: string) => {
+  const deleteCurrentKnowledge = (id: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, index }
+      extraObject: { message: `Are you sure you want to delete this knowledge base?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.KNOWLEDGE_DELETE, id }
     }))
   }
 
@@ -111,7 +110,7 @@ function KnowledgeBase() {
 
       {/* Team Member list in table format loaded constant */}
       {
-        knowledge.length > 1 ? (
+        knowledgeBase.length !== 1 || knowledgeBase[0].name !== "" ? (
           <div className="overflow-x-auto w-full">
             <table className="table w-full">
               <thead>
@@ -126,9 +125,9 @@ function KnowledgeBase() {
               </thead>
               <tbody>
                 {
-                  knowledges.map((l, k) => l.id && (
+                  knowledgeBase.map((l, k) => l.id && (
                     <tr key={k}>
-                      <td>{l.id}</td>
+                      <td>{k + 1}</td>
                       <td>
                         <div className="font-bold">{l.name}</div>
                       </td>

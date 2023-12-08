@@ -12,10 +12,11 @@ export type SideMenu = Array<{
 }>
 
 export type KnowledgeBase = {
+  id?: string,
   name: string,
   type: string,
   status: string,
-  date: string
+  date?: string
 }
 
 export type Prompt = {
