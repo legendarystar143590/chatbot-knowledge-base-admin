@@ -7,10 +7,12 @@ import SearchBar from "../../../components/Input/SearchBar"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon"
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
+import { FaceFrownIcon } from "@heroicons/react/24/outline"
 import { openModal } from "../../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../../app/store"
 import { getPromptsContent } from "../promptsSlice"
+import { Prompt } from "../../../utils/Type"
 
 type PropTypes = {
   applySearch: Function
@@ -51,80 +53,93 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
 
 function PrePrompts() {
 
-  const { prompts } = useSelector((state: RootState) => state.prompt)
+  const { prompts, isLoading } = useSelector((state: RootState) => state.prompt)
   const dispatch: AppDispatch = useDispatch()
 
-  const [prePrompts, setPrePrompts] = useState([{
-    id: "",
-    title: "",
-    prompt: "",
-    date: ""
-  }])
+  const [prePrompts, setPrePrompts] = useState(prompts)
 
   useEffect(() => {
     dispatch(getPromptsContent())
   }, [])
 
+  useEffect(() => {
+    setPrePrompts(prompts);
+  }, [prompts])
+
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = prompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.title.toLowerCase().includes(value.toLowerCase()) })
+    let filteredPrompts = prompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
     setPrePrompts(filteredPrompts)
   }
 
-  const deleteCurrentPrompt = (index: string) => {
+  const deleteCurrentPrompt = (id: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this prompt?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, index }
+      extraObject: { message: `Are you sure you want to delete this prompt?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, id }
     }))
   }
 
-  const editCurrentPrompt = (index: string) => {
-    dispatch(openModal({
-      title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, index }
-    }))
+  const editCurrentPrompt = (prompt: Prompt) => {
+    dispatch(openModal({ title: "Edit Prompt", bodyType: MODAL_BODY_TYPES.PROMPT_UPDATE, extraObject: prompt }))
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <span className="loading loading-infinity w-32 h-32"></span>
+      </div>
+    );
   }
 
   return (
-    <>
-      <TitleCard title="PrePrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+    <TitleCard title="PrePrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
-        {/* Team Member list in table format loaded constant */}
-        <div className="overflow-x-auto w-full">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Prompt</th>
-                <th>Date</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                prePrompts.map((l, k) => {
-                  return (
-                    <tr key={k}>
-                      <td>
-                        <div className="font-bold">{l.title}</div>
-                      </td>
-                      <td>{l.prompt}</td>
-                      <td>{l.date}</td>
-                      <td>
-                        <div className="flex">
-                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentPrompt(l.id)}><PencilSquareIcon className="w-5" /></button>
-                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentPrompt(l.id)}><TrashIcon className="w-5" /></button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-        </div>
-      </TitleCard>
-    </>
+      {/* Team Member list in table format loaded constant */}
+      {
+        prePrompts.length !== 1 || prePrompts[0].title !== "" ? (
+          <div className="overflow-x-auto w-full">
+            <table className="table w-full">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Title</th>
+                  <th>Prompt</th>
+                  <th>Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  prePrompts.map((l, k) => {
+                    return (
+                      <tr key={k}>
+                        <td>{k + 1}</td>
+                        <td>
+                          <div className="font-bold">{l.title}</div>
+                        </td>
+                        <td>{l.prompt}</td>
+                        <td>{l.date}</td>
+                        <td>
+                          <div className="flex">
+                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentPrompt(l)}><PencilSquareIcon className="w-5" /></button>
+                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentPrompt(l.id)}><TrashIcon className="w-5" /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-2xl flex justify-center items-center gap-2 text-center">
+            <FaceFrownIcon className="w-12 h-12" />
+            No PrePrompt
+          </div>
+        )
+      }
+    </TitleCard>
   )
 }
 
