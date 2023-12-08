@@ -1,16 +1,19 @@
 // import moment from "moment"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
-import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
+// import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
 import SearchBar from "../../components/Input/SearchBar"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
+import { FaceFrownIcon } from "@heroicons/react/24/outline"
 import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
+import { AppDispatch, RootState } from "../../app/store"
+import { getKnowledgeContent } from "./knowledgeSlice"
 
 type PropTypes = {
   applySearch: Function
@@ -18,10 +21,16 @@ type PropTypes = {
 
 const TopSideButtons = ({ applySearch }: PropTypes) => {
 
+  const dispatch = useDispatch()
+
   const [searchText, setSearchText] = useState("")
 
   const removeAppliedFilter = () => {
     setSearchText("")
+  }
+
+  const openAddNewKnowledgeModal = (type: string) => {
+    dispatch(openModal({ title: "Add New Knowledge", bodyType: MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW, extraObject: { type: type } }))
   }
 
   useEffect(() => {
@@ -35,10 +44,16 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   return (
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-      <button className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6">
-        <PlusSmallIcon className="w-6 h-6 sm:hidden" />
-        <span className="hidden sm:block">Add New</span>
-      </button>
+      <div className="dropdown dropdown-bottom dropdown-end">
+        <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6">
+          <PlusSmallIcon className="w-6 h-6 sm:hidden" />
+          <span className="hidden sm:block">Add New</span>
+        </button>
+        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 bg-primary text-white mt-1 rounded-xl">
+          <li><button onClick={() => openAddNewKnowledgeModal('URL')}>URL</button></li>
+          <li><button onClick={() => openAddNewKnowledgeModal('file')}>File</button></li>
+        </ul>
+      </div>
     </div>
   )
 }
@@ -46,14 +61,23 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
 
 function KnowledgeBase() {
 
-  const dispatch = useDispatch()
+  const { knowledge, isLoading } = useSelector((state: RootState) => state.knowledge)
+  const dispatch: AppDispatch = useDispatch()
 
-  const [trans, setTrans] = useState(RECENT_TRANSACTIONS)
+  const [knowledges, setKnowledges] = useState(knowledge)
+
+  useEffect(() => {
+    dispatch(getKnowledgeContent());
+  }, [])
+
+  useEffect(() => {
+    setKnowledges(knowledge)
+  }, [knowledge])
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.name.toLowerCase().includes(value.toLowerCase()) || t.name.toLowerCase().includes(value.toLowerCase()) })
-    setTrans(filteredTransactions)
+    let filteredKnowledges = knowledge.filter((t) => { return t.name.toLowerCase().includes(value.toLowerCase()) || t.name.toLowerCase().includes(value.toLowerCase()) })
+    setKnowledges(filteredKnowledges)
   }
 
   const getStatus = (status: string) => {
@@ -76,28 +100,35 @@ function KnowledgeBase() {
     }))
   }
 
+  if (isLoading) {
+    return (
+      <span className="loading loading-infinity loading-lg"></span>
+    );
+  }
+
   return (
-    <>
+    <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
-      <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
-
-        {/* Team Member list in table format loaded constant */}
-        <div className="overflow-x-auto w-full">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                trans.map((l, k) => {
-                  return (
+      {/* Team Member list in table format loaded constant */}
+      {
+        knowledge.length > 1 ? (
+          <div className="overflow-x-auto w-full">
+            <table className="table w-full">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th className="w-12"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  knowledges.map((l, k) => l.id && (
                     <tr key={k}>
+                      <td>{l.id}</td>
                       <td>
                         <div className="font-bold">{l.name}</div>
                       </td>
@@ -106,14 +137,18 @@ function KnowledgeBase() {
                       <td>{l.date}</td>
                       <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentKnowledge(l.id)}><TrashIcon className="w-5" /></button></td>
                     </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-        </div>
-      </TitleCard>
-    </>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-2xl flex justify-center items-center gap-2 text-center">
+            <FaceFrownIcon className="w-12 h-12" />
+            No Knowledge Base
+          </div>
+        )}
+    </TitleCard>
   )
 }
 

@@ -17,3 +17,10 @@ export type KnowledgeBase = {
   status: string,
   date: string
 }
+
+export type Prompt = {
+  id?: string,
+  title: string,
+  prompt: string,
+  date?: string
+}

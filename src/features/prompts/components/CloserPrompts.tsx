@@ -65,10 +65,10 @@ function CloserPrompts() {
     }
   }
 
-  const deleteCurrentKnowledge = (index: string) => {
+  const deleteCurrentKnowledge = (id: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, index }
+      extraObject: { message: `Are you sure you want to delete this lead?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.PROMPT_DELETE, id }
     }))
   }
 

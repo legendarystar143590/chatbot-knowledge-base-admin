@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from '../features/common/modalSlice'
 import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
 import AddPromptModalBody from '../features/prompts/components/AddPromptModalBody'
+import AddKnowledgeModalBody from '../features/knowledge/components/AddKnowledgeModalBody'
 import { RootState } from '../app/store'
 
 
@@ -28,6 +29,8 @@ function ModalLayout() {
           {
             {
               [MODAL_BODY_TYPES.PROMPT_ADD_NEW]: <AddPromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.PROMPT_UPDATE]: <AddPromptModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW]: <AddKnowledgeModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.CONFIRMATION]: <ConfirmationModalBody extraObject={extraObject} closeModal={close} />,
               [MODAL_BODY_TYPES.DEFAULT]: <div></div>
             }[bodyType]

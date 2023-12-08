@@ -10,8 +10,9 @@ export const modalSlice = createSlice({
     extraObject: {
       message: "",
       type: "",
-      _id: "",
-      index: 0
+      id: "",
+      title: "",
+      prompt: ""
     },
   },
   reducers: {
@@ -32,8 +33,9 @@ export const modalSlice = createSlice({
       state.extraObject = {
         message: "",
         type: "",
-        _id: "",
-        index: 0
+        id: "",
+        title: "",
+        prompt: ""
       }
     },
 
