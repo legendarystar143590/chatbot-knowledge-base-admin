@@ -7,7 +7,7 @@ import { AppDispatch } from "../../../app/store"
 import { addNewAssistant, updateAssistant } from "../assistantsSlice"
 
 const INITIAL_ASSISTANT_OBJ = {
-  name: "",
+  assistant_name: "",
   date: ""
 }
 
@@ -15,7 +15,7 @@ type PropTypes = {
   closeModal: () => void,
   extraObject?: {
     id?: string
-    name: string,
+    assistant_name: string,
   }
 }
 
@@ -29,10 +29,10 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
   const [assistant, setAssistant] = useState(extraObject ? extraObject : INITIAL_ASSISTANT_OBJ)
 
   const saveNewAssistant = () => {
-    if (assistant.name.trim() === "") return setErrorMessage("Assistant Name required!")
+    if (assistant.assistant_name.trim() === "") return setErrorMessage("Assistant Name required!")
     else {
       let newAssistant = {
-        assistant_name: assistant.name,
+        assistant_name: assistant.assistant_name,
       }
 
       if (isNew) {
@@ -70,7 +70,7 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
 
   return (
     <>
-      <InputText type="text" defaultValue={assistant.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
+      <InputText type="text" defaultValue={assistant.assistant_name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
