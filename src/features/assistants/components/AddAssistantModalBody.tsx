@@ -70,7 +70,7 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
 
   return (
     <>
-      <InputText type="text" defaultValue={assistant.assistant_name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
+      <InputText type="text" defaultValue={assistant.assistant_name} updateType="assistant_name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
