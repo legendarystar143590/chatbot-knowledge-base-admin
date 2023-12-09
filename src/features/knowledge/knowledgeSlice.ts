@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { KNOWLEDGE_BASE_API } from '../../utils/serverURL';
+import { KnowledgeBase } from '../../utils/Type';
 
 export const getKnowledgeContent = createAsyncThunk('/knowledge/content', async () => {
   const response = await axios.get(KNOWLEDGE_BASE_API.GET_KNOWLEDGE_BASE, {
@@ -11,11 +12,38 @@ export const getKnowledgeContent = createAsyncThunk('/knowledge/content', async 
   return response.data;
 })
 
+export const addNewKnowledge = createAsyncThunk('/knowledge/add', async (knowledge: KnowledgeBase) => {
+  const response = await axios.post(KNOWLEDGE_BASE_API.ADD_KNOWLEDGE_BASE, {
+    user_id: "123",
+    knowledge_name: knowledge.name,
+    knowledge_type: knowledge.type
+  })
+  return response.data;
+})
+
+export const updateKnowledge = createAsyncThunk('/knowledge/update', async (knowledge: KnowledgeBase) => {
+  const response = await axios.post(KNOWLEDGE_BASE_API.UPDATE_KNOWLEDGE_BASE, {
+    id: knowledge.id,
+    user_id: "123",
+    knowledge_name: knowledge.name,
+    knowledge_type: knowledge.type
+  })
+  return response.data;
+})
+
+export const deleteKnowledge = createAsyncThunk('/knowledge/delete', async (id: string) => {
+  const response = await axios.post(KNOWLEDGE_BASE_API.DELETE_KNOWLEDGE_BASE, {
+    id: id
+  })
+  console.log(response.data)
+  return response.data;
+})
+
 export const knowledgeSlice = createSlice({
   name: 'knowledge',
   initialState: {
     isLoading: false,
-    knowledge: [{
+    knowledges: [{
       id: "",
       name: "",
       type: "",
@@ -24,37 +52,61 @@ export const knowledgeSlice = createSlice({
     }]
   },
   reducers: {
-    addNewKnowledge: (state, action) => {
-      let { newKnowledgeObj } = action.payload
-      state.knowledge = [...state.knowledge, newKnowledgeObj]
-    },
+    // addNewKnowledge: (state, action) => {
+    //   let { newKnowledgeObj } = action.payload
+    //   state.knowledge = [...state.knowledge, newKnowledgeObj]
+    // },
 
-    deleteKnowledge: (state, action) => {
-      let { id } = action.payload
-      state.knowledge.splice(id, 1)
-    }
+    // deleteKnowledge: (state, action) => {
+    //   let { id } = action.payload
+    //   state.knowledge.splice(id, 1)
+    // }
   },
   extraReducers: (builder) => {
     builder.addCase(getKnowledgeContent.pending, (state) => {
       state.isLoading = true
     })
     builder.addCase(getKnowledgeContent.fulfilled, (state, { payload }) => {
-      if (payload === undefined) state.knowledge = [{
-        id: "",
-        name: "",
-        type: "",
-        status: "",
-        date: ""
-      }]
-      else state.knowledge = payload.data
+      // state.knowledges = payload.data
+      state.knowledges = [{ id: "1", name: "https://reactjs.org", type: "URL", status: "success", date: '2023-12-07' },
+      { id: "2", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "pending", date: '2023-12-07' },
+      { id: "3", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "fail", date: '2023-12-07' }]
       state.isLoading = false
     })
     builder.addCase(getKnowledgeContent.rejected, (state) => {
       state.isLoading = false
     })
+    builder.addCase(addNewKnowledge.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(addNewKnowledge.fulfilled, (state, { payload }) => {
+      state.knowledges = [...state.knowledges, payload]
+      state.isLoading = false
+    })
+    builder.addCase(addNewKnowledge.rejected, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(updateKnowledge.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(updateKnowledge.fulfilled, (state, { payload }) => {
+      state.knowledges = state.knowledges.map(knowledge => knowledge.id === payload.id ? payload : knowledge)
+      state.isLoading = false
+    })
+    builder.addCase(updateKnowledge.rejected, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(deleteKnowledge.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(deleteKnowledge.fulfilled, (state, { payload }) => {
+      state.knowledges = state.knowledges.filter(knowledge => knowledge.id === payload.id)
+      state.isLoading = false
+    })
+    builder.addCase(deleteKnowledge.rejected, (state) => {
+      state.isLoading = false
+    })
   }
 })
-
-export const { addNewKnowledge, deleteKnowledge } = knowledgeSlice.actions
 
 export default knowledgeSlice.reducer

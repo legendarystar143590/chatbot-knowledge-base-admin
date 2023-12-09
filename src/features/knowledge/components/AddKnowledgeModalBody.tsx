@@ -4,6 +4,7 @@ import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
 import { addNewKnowledge } from "../knowledgeSlice"
+import { AppDispatch } from "../../../app/store"
 
 const INITIAL_KNOWLEDGE_OBJ = {
   name: "",
@@ -16,31 +17,28 @@ const INITIAL_KNOWLEDGE_OBJ = {
 type PropTypes = {
   closeModal: () => void,
   extraObject?: {
-    message?: string,
-    type?: string,
     id?: string
+    name: string,
+    type: string,
+    status: string,
   }
 }
 
 function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const [knowledgeObj, setKnowledgeObj] = useState(INITIAL_KNOWLEDGE_OBJ)
-  const knowledgeType = extraObject?.type
-
+  const [knowledge, setKnowledge] = useState(extraObject ? extraObject : INITIAL_KNOWLEDGE_OBJ)
 
   const saveNewKnowledge = () => {
-    if (knowledgeObj.name.trim() === "") return setErrorMessage("Incorrect Input!")
+    if (knowledge.name.trim() === "") return setErrorMessage("Incorrect Input!")
     else {
-      let newKnowledgeObj = {
-        "id": 7,
-        "name": knowledgeObj.name,
-        "type": knowledgeType,
-        "status": "pending",
-        "date": "2023-12-07"
+      let newKnowledge = {
+        name: knowledge.name,
+        type: knowledge.type,
+        status: "pending",
       }
-      dispatch(addNewKnowledge({ newKnowledgeObj }))
+      dispatch(addNewKnowledge(newKnowledge))
       dispatch(showNotification({ message: "New Knowledge Base Added!", status: 1 }))
       closeModal()
     }
@@ -48,16 +46,16 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
 
   const updateFormValue = (updateType: string, value: string) => {
     setErrorMessage("")
-    setKnowledgeObj({ ...knowledgeObj, [updateType]: value })
+    setKnowledge({ ...knowledge, [updateType]: value })
   }
 
   return (
     <>
       {
-        knowledgeType === "URL" ? (
-          <InputText type="text" defaultValue={knowledgeObj.name} updateType="name" containerStyle="mt-4" labelTitle="URL" updateFormValue={updateFormValue} />
+        knowledge.type === "URL" ? (
+          <InputText type="text" defaultValue={knowledge.name} updateType="name" containerStyle="mt-4" labelTitle="URL" updateFormValue={updateFormValue} />
         ) : (
-          <InputText type="file" defaultValue={knowledgeObj.name} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} />
+          <InputText type="file" defaultValue={knowledge.name} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} />
         )
       }
 

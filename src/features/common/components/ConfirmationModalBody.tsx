@@ -21,7 +21,6 @@ function ConfirmationModalBody({ extraObject, closeModal }: PropTypes) {
 
   const { message, type, id } = extraObject
 
-
   const proceedWithYes = async () => {
     switch (type) {
       case CONFIRMATION_MODAL_CLOSE_TYPES.PRE_PROMPT_DELETE:

@@ -6,7 +6,9 @@ import { Prompt } from '../../utils/Type';
 export const getPrePromptsContent = createAsyncThunk('/preprompts/content', async () => {
   const response = await axios.get(PROMPT_API.GET_PRE_PROMPTS, {
     headers: {
-      'ngrok-skip-browser-warning': "1"
+      'ngrok-skip-browser-warning': "1",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'https://9797-156-220-22-73.ngrok-free.app.env',
     }
   })
   return response.data;
