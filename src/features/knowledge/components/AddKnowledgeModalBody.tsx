@@ -80,9 +80,9 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
     <>
       {
         knowledge.type === "URL" ? (
-          <InputText type="text" defaultValue={knowledge.name} updateType="name" containerStyle="mt-4" labelTitle="URL" updateFormValue={updateFormValue} />
+          <InputText type="text" defaultValue={knowledge.name ? knowledge.name : ""} updateType="name" containerStyle="mt-4" labelTitle="URL" updateFormValue={updateFormValue} />
         ) : (
-          <InputText type="file" defaultValue={knowledge.name} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} />
+          <InputText type="file" defaultValue={knowledge.name ? knowledge.name : ""} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} />
         )
       }
 

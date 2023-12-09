@@ -8,6 +8,7 @@ import SunIcon from '@heroicons/react/24/outline/SunIcon'
 // import { openRightDrawer } from '../features/common/rightDrawerSlice';
 // import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
 import { RootState } from '../app/store'
+import { themeChange } from 'theme-change'
 
 
 function Header() {
@@ -17,7 +18,7 @@ function Header() {
   const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
 
   useEffect(() => {
-    // themeChange(false)
+    themeChange(false)
     if (currentTheme === null) {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         setCurrentTheme("dark")
