@@ -6,7 +6,9 @@ import { Prompt } from '../../utils/Type';
 export const getPushPromptsContent = createAsyncThunk('/pushprompts/content', async () => {
   const response = await axios.get(PROMPT_API.GET_PUSH_PROMPTS, {
     headers: {
-      'ngrok-skip-browser-warning': "1"
+      'ngrok-skip-browser-warning': "1",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
     }
   })
   return response.data;
@@ -93,7 +95,7 @@ export const pushPromptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(deletePushPrompt.fulfilled, (state, { payload }) => {
-      state.pushPrompts = state.pushPrompts.filter(prompt => prompt.id === payload.id)
+      state.pushPrompts = state.pushPrompts.filter(prompt => prompt.id !== payload.id)
       state.isLoading = false
     })
     builder.addCase(deletePushPrompt.rejected, (state) => {

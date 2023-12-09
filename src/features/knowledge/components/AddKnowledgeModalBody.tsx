@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewKnowledge } from "../knowledgeSlice"
+import { addNewKnowledge, updateKnowledge } from "../knowledgeSlice"
 import { AppDispatch } from "../../../app/store"
 
 const INITIAL_KNOWLEDGE_OBJ = {
@@ -11,22 +11,25 @@ const INITIAL_KNOWLEDGE_OBJ = {
   type: "",
   status: "",
   date: ""
-  // prompt: ""
 }
 
 type PropTypes = {
   closeModal: () => void,
-  extraObject?: {
+  extraObject: {
     id?: string
     name: string,
     type: string,
     status: string,
+    assistant_id: string
   }
 }
 
 function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
+
+  const isNew = extraObject?.id ? false : true
+
   const [errorMessage, setErrorMessage] = useState("")
   const [knowledge, setKnowledge] = useState(extraObject ? extraObject : INITIAL_KNOWLEDGE_OBJ)
 
@@ -35,11 +38,35 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
     else {
       let newKnowledge = {
         name: knowledge.name,
-        type: knowledge.type,
+        type_of_knowledge: knowledge.type,
+        assistant_id: extraObject.assistant_id,
         status: "pending",
       }
-      dispatch(addNewKnowledge(newKnowledge))
-      dispatch(showNotification({ message: "New Knowledge Base Added!", status: 1 }))
+
+      if (isNew) {
+        dispatch(addNewKnowledge(newKnowledge))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "New Knowledge Base Added!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      } else {
+        dispatch(updateKnowledge(newKnowledge))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "Knowledge Base Updated!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      }
+      
       closeModal()
     }
   }

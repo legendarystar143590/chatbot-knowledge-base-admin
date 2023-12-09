@@ -6,6 +6,7 @@ import AddPrePromptModalBody from '../features/prompts/components/AddPrePromptMo
 import AddCloserPromptModalBody from '../features/prompts/components/AddCloserPromptModalBody'
 import AddPushPromptModalBody from '../features/prompts/components/AddPushPromptModalBody'
 import AddKnowledgeModalBody from '../features/knowledge/components/AddKnowledgeModalBody'
+import AddAssistantModalBody from '../features/assistants/components/AddAssistantModalBody'
 import { RootState } from '../app/store'
 
 
@@ -37,6 +38,9 @@ function ModalLayout() {
               [MODAL_BODY_TYPES.PUSH_PROMPT_ADD_NEW]: <AddPushPromptModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.PUSH_PROMPT_UPDATE]: <AddPushPromptModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW]: <AddKnowledgeModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.KNOWLEDGE_UPDATE]: <AddKnowledgeModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.ASSISTANT_ADD_NEW]: <AddAssistantModalBody closeModal={close} extraObject={extraObject} />,
+              [MODAL_BODY_TYPES.ASSISTANT_UPDATE]: <AddAssistantModalBody closeModal={close} extraObject={extraObject} />,
               [MODAL_BODY_TYPES.CONFIRMATION]: <ConfirmationModalBody extraObject={extraObject} closeModal={close} />,
               [MODAL_BODY_TYPES.DEFAULT]: <div></div>
             }[bodyType]

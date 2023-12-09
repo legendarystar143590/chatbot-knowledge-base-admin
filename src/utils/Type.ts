@@ -11,10 +11,17 @@ export type SideMenu = Array<{
   submenu?: SubMenu[]
 }>
 
+export type Assistant = {
+  id?: string,
+  assistant_name: string,
+  date?: string
+}
+
 export type KnowledgeBase = {
   id?: string,
   name: string,
-  type: string,
+  assistant_id: string,
+  type_of_knowledge: string,
   status: string,
   date?: string
 }

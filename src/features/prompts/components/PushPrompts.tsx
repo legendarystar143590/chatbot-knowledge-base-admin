@@ -98,13 +98,13 @@ function PushPrompts() {
       {
         prompts.length !== 1 || prompts[0].title !== "" ? (
           <div className="overflow-x-auto w-full">
-            <table className="table w-full">
+            <table className="table w-full table-sm lg:table-lg">
               <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Prompt</th>
-                  <th>Date</th>
-                  <th></th>
+                <tr className="text-sm">
+                  <th className="w-12 text-center">No</th>
+                  <th className="text-center">Prompt</th>
+                  <th className="text-center">Date</th>
+                  <th className="w-12 text-right"></th>
                 </tr>
               </thead>
               <tbody>
@@ -112,10 +112,10 @@ function PushPrompts() {
                   prompts.map((l, k) => {
                     return (
                       <tr key={k}>
-                        <td>{k + 1}</td>
+                        <td className="text-center">{k + 1}</td>
                         <td>{l.prompt}</td>
                         <td>{l.date}</td>
-                        <td>
+                        <td className="text-right">
                           <div className="flex">
                             <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentPrompt(l)}><PencilSquareIcon className="w-5" /></button>
                             <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentPrompt(l.id)}><TrashIcon className="w-5" /></button>

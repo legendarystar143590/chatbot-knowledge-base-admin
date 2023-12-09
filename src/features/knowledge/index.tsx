@@ -1,11 +1,11 @@
 // import moment from "moment"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
 import SearchBar from "../../components/Input/SearchBar"
-import { CheckIcon } from "@heroicons/react/24/solid"
-import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
+// import { CheckIcon } from "@heroicons/react/24/solid"
+// import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
 import { FaceFrownIcon } from "@heroicons/react/24/outline"
@@ -13,12 +13,14 @@ import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../app/store"
 import { getKnowledgeContent } from "./knowledgeSlice"
+import { getAssistantContent } from "../assistants/assistantsSlice"
 
 type PropTypes = {
-  applySearch: Function
+  applySearch: Function,
+  selected: string
 }
 
-const TopSideButtons = ({ applySearch }: PropTypes) => {
+const TopSideButtons = ({ applySearch, selected }: PropTypes) => {
 
   const dispatch = useDispatch()
 
@@ -28,8 +30,8 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
     setSearchText("")
   }
 
-  const openAddNewKnowledgeModal = (type: string) => {
-    dispatch(openModal({ title: "Add New Knowledge", bodyType: MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW, extraObject: { type: type } }))
+  const openAddNewKnowledgeModal = (type_of_knowledge: string, assistant_id: string) => {
+    dispatch(openModal({ title: "Add New Knowledge", bodyType: MODAL_BODY_TYPES.KNOWLEDGE_ADD_NEW, extraObject: { type: type_of_knowledge, assistant_id: assistant_id } }))
   }
 
   useEffect(() => {
@@ -49,8 +51,8 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
           <span className="hidden sm:block">Add New</span>
         </button>
         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 bg-primary text-white mt-1 rounded-xl">
-          <li><button onClick={() => openAddNewKnowledgeModal('URL')}>URL</button></li>
-          <li><button onClick={() => openAddNewKnowledgeModal('file')}>File</button></li>
+          <li><button onClick={() => openAddNewKnowledgeModal('URL', selected)}>URL</button></li>
+          <li><button onClick={() => openAddNewKnowledgeModal('file', selected)}>File</button></li>
         </ul>
       </div>
     </div>
@@ -61,13 +63,19 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
 function KnowledgeBase() {
 
   const { knowledges, isLoading } = useSelector((state: RootState) => state.knowledge)
+  const { assistants } = useSelector((state: RootState) => state.assistant)
   const dispatch: AppDispatch = useDispatch()
 
   const [knowledgeBase, setKnowledgeBase] = useState(knowledges)
+  const [selectedAssistance, setSelectedAssistance] = useState("-1")
 
   useEffect(() => {
-    dispatch(getKnowledgeContent());
+    dispatch(getAssistantContent())
   }, [])
+
+  useEffect(() => {
+    dispatch(getKnowledgeContent(selectedAssistance))
+  }, [selectedAssistance])
 
   useEffect(() => {
     setKnowledgeBase(knowledges)
@@ -79,18 +87,18 @@ function KnowledgeBase() {
     setKnowledgeBase(filteredKnowledges)
   }
 
-  const getStatus = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return <span className="loading loading-spinner text-primary"></span>
-      case 'success':
-        return <CheckIcon className="w-8 h-8 text-accent" />
-      case 'fail':
-        return <XMarkIcon className="w-8 h-8 text-secondary" />
-      default:
-        return null
-    }
-  }
+  // const getStatus = (status: string) => {
+  //   switch (status) {
+  //     case 'pending':
+  //       return <span className="loading loading-spinner text-primary"></span>
+  //     case 'success':
+  //       return <CheckIcon className="w-8 h-8 text-accent" />
+  //     case 'fail':
+  //       return <XMarkIcon className="w-8 h-8 text-secondary" />
+  //     default:
+  //       return null
+  //   }
+  // }
 
   const deleteCurrentKnowledge = (id: string) => {
     dispatch(openModal({
@@ -99,42 +107,72 @@ function KnowledgeBase() {
     }))
   }
 
+  const changeSelectedAssistant = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAssistance(e.target.value)
+  }
+
+  const openAddNewAssistantModal = () => {
+    dispatch(openModal({ title: "Add New Assistant", bodyType: MODAL_BODY_TYPES.ASSISTANT_ADD_NEW }))
+  }
+
+  const assistantsSelect = (
+    <div className="flex items-center">
+      <select className="select select-bordered select-sm max-w-xs mr-5 input-sm w-full" value={selectedAssistance} onChange={e => changeSelectedAssistant(e)}>
+        <option disabled value='-1'>Choose Assistant</option>
+        {
+          assistants.map(assistant => (
+            <option key={assistant.id} value={assistant.id}>{assistant.assistant_name}</option>
+          ))
+        }
+      </select>
+      <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-neutral text-white" onClick={() => openAddNewAssistantModal()}>
+        <PlusSmallIcon className="w-6 h-6" />
+      </button>
+    </div>
+  )
+
   if (isLoading) {
     return (
-      <span className="loading loading-infinity loading-lg"></span>
+      <div className="flex justify-center items-center">
+        <span className="loading loading-infinity w-32 h-32"></span>
+      </div>
     );
   }
 
   return (
-    <TitleCard title="Knowledge Base" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+    <TitleCard title={assistantsSelect} topMargin="mt-2" TopSideButtons={<TopSideButtons selected={selectedAssistance} applySearch={applySearch} />}>
 
       {/* Team Member list in table format loaded constant */}
       {
         knowledgeBase.length !== 1 || knowledgeBase[0].name !== "" ? (
           <div className="overflow-x-auto w-full">
-            <table className="table w-full">
+            <table className="table w-full table-sm lg:table-lg">
               <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th className="w-12"></th>
+                <tr className="text-sm">
+                  <th className="w-12 text-center">No</th>
+                  <th className="text-center">Name</th>
+                  <th className="text-center">Type</th>
+                  {/* <th className="text-center">Status</th> */}
+                  <th className="text-center">Date</th>
+                  <th className="w-12 text-right"></th>
                 </tr>
               </thead>
               <tbody>
                 {
                   knowledgeBase.map((l, k) => l.id && (
                     <tr key={k}>
-                      <td>{k + 1}</td>
+                      <td className="text-center">{k + 1}</td>
                       <td>
                         <div className="font-bold">{l.name}</div>
                       </td>
-                      <td>{l.type}</td>
-                      <td>{getStatus(l.status)}</td>
+                      <td>{l.type_of_knowledge}</td>
+                      {/* <td>{getStatus(l.status)}</td> */}
                       <td>{l.date}</td>
-                      <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentKnowledge(l.id)}><TrashIcon className="w-5" /></button></td>
+                      <td className="text-right">
+                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentKnowledge(l.id)}>
+                          <TrashIcon className="w-5" />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 }

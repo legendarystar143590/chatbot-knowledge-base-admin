@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewPushPrompt } from "../pushPromptsSlice"
+import { addNewPushPrompt, updatePushPrompt } from "../pushPromptsSlice"
 import { AppDispatch } from "../../../app/store"
 
 const INITIAL_PUSH_PROMPT_OBJ = {
@@ -23,6 +23,9 @@ type PropTypes = {
 function AddPushPromptModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
+
+  const isNew = extraObject ? false : true
+
   const [errorMessage, setErrorMessage] = useState("")
   const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_PUSH_PROMPT_OBJ)
 
@@ -33,12 +36,31 @@ function AddPushPromptModalBody({ closeModal, extraObject }: PropTypes) {
         id: promptObj.id,
         prompt: promptObj.prompt,
       }
-      dispatch(addNewPushPrompt(newPrompt))
-        .then(res => {
-          console.log(res)
-          dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
-        })
-        .catch(err => console.log(err))
+      
+      if (isNew) {
+        dispatch(addNewPushPrompt(newPrompt))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      } else {
+        dispatch(updatePushPrompt(newPrompt))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "Prompt Updated!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      }
+
       closeModal()
     }
   }

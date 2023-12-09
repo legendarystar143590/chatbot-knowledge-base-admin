@@ -6,7 +6,9 @@ import { Prompt } from '../../utils/Type';
 export const getCloserPromptsContent = createAsyncThunk('/closerprompts/content', async () => {
   const response = await axios.get(PROMPT_API.GET_CLOSER_PROMPTS, {
     headers: {
-      'ngrok-skip-browser-warning': "1"
+      'ngrok-skip-browser-warning': "1",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
     }
   })
   return response.data;
@@ -93,7 +95,7 @@ export const closerPromptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(deleteCloserPrompt.fulfilled, (state, { payload }) => {
-      state.closerPrompts = state.closerPrompts.filter(prompt => prompt.id === payload.id)
+      state.closerPrompts = state.closerPrompts.filter(prompt => prompt.id !== payload.id)
       state.isLoading = false
     })
     builder.addCase(deleteCloserPrompt.rejected, (state) => {
