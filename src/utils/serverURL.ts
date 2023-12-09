@@ -25,3 +25,10 @@ export const KNOWLEDGE_BASE_API = {
   DELETE_KNOWLEDGE_BASE: API_Address + "/del_knowledge",     // post
   UPDATE_KNOWLEDGE_BASE: API_Address + "/update_knowledge",     // post
 }
+
+export const ASSISTANT_API = {
+  ADD_ASSISTANT: API_Address + "/add_assistant",     // get
+  GET_ASSISTANT: API_Address + "/get_assistant",     // post
+  DELETE_ASSISTANT: API_Address + "/del_assistant",     // post
+  UPDATE_ASSISTANT: API_Address + "/update_assistant",     // post
+}

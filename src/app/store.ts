@@ -5,6 +5,7 @@ import prePromptsSlice from '../features/prompts/prePromptsSlice'
 import closerPromptsSlice from '../features/prompts/closerPromptsSlice'
 import pushPromptsSlice from '../features/prompts/pushPromptsSlice'
 import knowledgeSlice from '../features/knowledge/knowledgeSlice'
+import assistantsSlice from '../features/assistants/assistantsSlice'
 
 const combinedReducer = {
   header: headerSlice,
@@ -12,7 +13,8 @@ const combinedReducer = {
   prePrompt: prePromptsSlice,
   closerPrompt: closerPromptsSlice,
   pushPrompt: pushPromptsSlice,
-  knowledge: knowledgeSlice
+  knowledge: knowledgeSlice,
+  assistant: assistantsSlice
 }
 
 export const store = configureStore({

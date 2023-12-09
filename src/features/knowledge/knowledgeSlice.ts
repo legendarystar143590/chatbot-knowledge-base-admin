@@ -3,30 +3,48 @@ import axios from 'axios'
 import { KNOWLEDGE_BASE_API } from '../../utils/serverURL';
 import { KnowledgeBase } from '../../utils/Type';
 
-export const getKnowledgeContent = createAsyncThunk('/knowledge/content', async () => {
-  const response = await axios.get(KNOWLEDGE_BASE_API.GET_KNOWLEDGE_BASE, {
-    params: {
-      user_id: "123"
+export const getKnowledgeContent = createAsyncThunk('/knowledge/content', async (assistant_id: string) => {
+  const response = await axios.post(KNOWLEDGE_BASE_API.GET_KNOWLEDGE_BASE, {
+    assistant_id: assistant_id
+  }, {
+    headers: {
+      'ngrok-skip-browser-warning': "1",
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'https://9797-156-220-22-73.ngrok-free.app.env',
     }
   })
   return response.data;
 })
 
 export const addNewKnowledge = createAsyncThunk('/knowledge/add', async (knowledge: KnowledgeBase) => {
-  const response = await axios.post(KNOWLEDGE_BASE_API.ADD_KNOWLEDGE_BASE, {
-    user_id: "123",
-    knowledge_name: knowledge.name,
-    knowledge_type: knowledge.type
-  })
-  return response.data;
+  if (knowledge.type_of_knowledge === 'URL') {
+    const response = await axios.post(KNOWLEDGE_BASE_API.ADD_KNOWLEDGE_BASE, {
+      assistant_id: knowledge.assistant_id,
+      knowledge_name: knowledge.name,
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    return response.data;
+  } else {
+    const response = await axios.post(KNOWLEDGE_BASE_API.ADD_KNOWLEDGE_BASE, {
+      assistant_id: "123",
+      file: knowledge.name,
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    return response.data;
+  }
 })
 
 export const updateKnowledge = createAsyncThunk('/knowledge/update', async (knowledge: KnowledgeBase) => {
   const response = await axios.post(KNOWLEDGE_BASE_API.UPDATE_KNOWLEDGE_BASE, {
     id: knowledge.id,
-    user_id: "123",
     knowledge_name: knowledge.name,
-    knowledge_type: knowledge.type
+    knowledge_type: knowledge.type_of_knowledge
   })
   return response.data;
 })
@@ -46,7 +64,7 @@ export const knowledgeSlice = createSlice({
     knowledges: [{
       id: "",
       name: "",
-      type: "",
+      type_of_knowledge: "",
       status: "",
       date: ""
     }]
@@ -67,10 +85,19 @@ export const knowledgeSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getKnowledgeContent.fulfilled, (state, { payload }) => {
-      // state.knowledges = payload.data
-      state.knowledges = [{ id: "1", name: "https://reactjs.org", type: "URL", status: "success", date: '2023-12-07' },
-      { id: "2", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "pending", date: '2023-12-07' },
-      { id: "3", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "fail", date: '2023-12-07' }]
+      if (payload?.result === 'Failed!' || 'Not found')
+        state.knowledges = [{
+          id: "",
+          name: "",
+          type_of_knowledge: "",
+          status: "",
+          date: ""
+        }]
+      else
+        state.knowledges = payload
+      // state.knowledges = [{ id: "1", name: "https://reactjs.org", type: "URL", status: "success", date: '2023-12-07' },
+      // { id: "2", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "pending", date: '2023-12-07' },
+      // { id: "3", name: "Master Copy of Hospital Cash Price", type: "File(Excel)", status: "fail", date: '2023-12-07' }]
       state.isLoading = false
     })
     builder.addCase(getKnowledgeContent.rejected, (state) => {
@@ -100,7 +127,7 @@ export const knowledgeSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(deleteKnowledge.fulfilled, (state, { payload }) => {
-      state.knowledges = state.knowledges.filter(knowledge => knowledge.id === payload.id)
+      state.knowledges = state.knowledges.filter(knowledge => knowledge.id !== payload.id)
       state.isLoading = false
     })
     builder.addCase(deleteKnowledge.rejected, (state) => {

@@ -3,48 +3,43 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewPrePrompt, updatePrePrompt } from "../prePromptsSlice"
 import { AppDispatch } from "../../../app/store"
+import { addNewAssistant, updateAssistant } from "../assistantsSlice"
 
-const INITIAL_PRE_PROMPT_OBJ = {
-  id: "",
-  title: "",
-  prompt: ""
+const INITIAL_ASSISTANT_OBJ = {
+  name: "",
+  date: ""
 }
 
 type PropTypes = {
   closeModal: () => void,
   extraObject?: {
-    id: string,
-    title: string,
-    prompt: string
+    id?: string
+    name: string,
   }
 }
 
-function AddPrePromptModalBody({ closeModal, extraObject }: PropTypes) {
+function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
 
   const isNew = extraObject ? false : true
 
   const [errorMessage, setErrorMessage] = useState("")
-  const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_PRE_PROMPT_OBJ)
+  const [assistant, setAssistant] = useState(extraObject ? extraObject : INITIAL_ASSISTANT_OBJ)
 
-  const saveNewPrompt = () => {
-    if (promptObj.title.trim() === "") return setErrorMessage("Title is required!")
-    else if (promptObj.prompt.trim() === "") return setErrorMessage("Prompt is required!")
+  const saveNewAssistant = () => {
+    if (assistant.name.trim() === "") return setErrorMessage("Assistant Name required!")
     else {
-      let newPrompt = {
-        id: promptObj.id,
-        title: promptObj.title,
-        prompt: promptObj.prompt,
+      let newAssistant = {
+        assistant_name: assistant.name,
       }
 
       if (isNew) {
-        dispatch(addNewPrePrompt(newPrompt))
+        dispatch(addNewAssistant(newAssistant))
           .then(res => {
-            if (res.payload)
-              dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
+            if (res.payload?.id)
+              dispatch(showNotification({ message: "New Assistant Added!", status: 1 }))
             else dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
           .catch(err => {
@@ -52,10 +47,10 @@ function AddPrePromptModalBody({ closeModal, extraObject }: PropTypes) {
             dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
       } else {
-        dispatch(updatePrePrompt(newPrompt))
+        dispatch(updateAssistant(newAssistant))
           .then(res => {
             if (res.payload)
-              dispatch(showNotification({ message: "Prompt Updated!", status: 1 }))
+              dispatch(showNotification({ message: "Assistant Updated!", status: 1 }))
             else dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
           .catch(err => {
@@ -70,22 +65,20 @@ function AddPrePromptModalBody({ closeModal, extraObject }: PropTypes) {
 
   const updateFormValue = (updateType: string, value: string) => {
     setErrorMessage("")
-    setPromptObj({ ...promptObj, [updateType]: value })
+    setAssistant({ ...assistant, [updateType]: value })
   }
 
   return (
     <>
-      <InputText type="text" defaultValue={promptObj.title} updateType="title" containerStyle="mt-4" labelTitle="Title" updateFormValue={updateFormValue} />
-
-      <InputText type="text" defaultValue={promptObj.prompt} updateType="prompt" containerStyle="mt-4" labelTitle="Prompt" updateFormValue={updateFormValue} />
+      <InputText type="text" defaultValue={assistant.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">
         <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-        <button className="btn btn-primary px-6" onClick={() => saveNewPrompt()}>Save</button>
+        <button className="btn btn-primary px-6" onClick={() => saveNewAssistant()}>Save</button>
       </div>
     </>
   )
 }
 
-export default AddPrePromptModalBody
+export default AddAssistantModalBody

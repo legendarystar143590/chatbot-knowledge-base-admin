@@ -5,6 +5,8 @@ import { deletePrePrompt } from '../../prompts/prePromptsSlice'
 import { deleteCloserPrompt } from '../../prompts/closerPromptsSlice'
 import { deletePushPrompt } from '../../prompts/pushPromptsSlice'
 import { AppDispatch } from '../../../app/store'
+import { deleteKnowledge } from '../../knowledge/knowledgeSlice'
+import { deleteAssistant } from '../../assistants/assistantsSlice'
 
 type PropTypes = {
   extraObject: {
@@ -26,26 +28,62 @@ function ConfirmationModalBody({ extraObject, closeModal }: PropTypes) {
       case CONFIRMATION_MODAL_CLOSE_TYPES.PRE_PROMPT_DELETE:
         dispatch(deletePrePrompt(id))
           .then(res => {
-            console.log(res);
-            dispatch(showNotification({ message: "PrePromt Deleted!", status: 1 }))
+            if (res.payload)
+              dispatch(showNotification({ message: "Prompt Deleted!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          });
         break;
       case CONFIRMATION_MODAL_CLOSE_TYPES.CLOSER_PROMPT_DELETE:
         dispatch(deleteCloserPrompt(id))
           .then(res => {
-            console.log(res);
-            dispatch(showNotification({ message: "CloserPromt Deleted!", status: 1 }))
+            if (res.payload)
+              dispatch(showNotification({ message: "Prompt Deleted!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          });
         break;
       case CONFIRMATION_MODAL_CLOSE_TYPES.PUSH_PROMPT_DELETE:
         dispatch(deletePushPrompt(id))
           .then(res => {
-            console.log(res);
-            dispatch(showNotification({ message: "PushPromt Deleted!", status: 1 }))
+            if (res.payload)
+              dispatch(showNotification({ message: "Prompt Deleted!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          });
+        break;
+      case CONFIRMATION_MODAL_CLOSE_TYPES.KNOWLEDGE_DELETE:
+        dispatch(deleteKnowledge(id))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "Knowledge Base Deleted!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          });
+        break;
+      case CONFIRMATION_MODAL_CLOSE_TYPES.ASSISTANT_DELETE:
+        dispatch(deleteAssistant(id))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "Assistant Deleted!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          });
         break;
       default: break;
     }

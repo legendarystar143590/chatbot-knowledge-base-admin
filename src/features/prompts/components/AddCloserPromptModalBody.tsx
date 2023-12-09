@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
 import { showNotification } from "../../common/headerSlice"
-import { addNewCloserPrompt } from "../closerPromptsSlice"
+import { addNewCloserPrompt, updateCloserPrompt } from "../closerPromptsSlice"
 import { AppDispatch } from "../../../app/store"
 
 const INITIAL_CLOSER_PROMPT_OBJ = {
@@ -23,6 +23,9 @@ type PropTypes = {
 function AddCloserPromptModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
+
+  const isNew = extraObject ? false : true
+
   const [errorMessage, setErrorMessage] = useState("")
   const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_CLOSER_PROMPT_OBJ)
 
@@ -33,12 +36,30 @@ function AddCloserPromptModalBody({ closeModal, extraObject }: PropTypes) {
         id: promptObj.id,
         prompt: promptObj.prompt,
       }
-      dispatch(addNewCloserPrompt(newPrompt))
-        .then(res => {
-          console.log(res)
-          dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
-        })
-        .catch(err => console.log(err))
+
+      if (isNew) {
+        dispatch(addNewCloserPrompt(newPrompt))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "New Prompt Added!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      } else {
+        dispatch(updateCloserPrompt(newPrompt))
+          .then(res => {
+            if (res.payload)
+              dispatch(showNotification({ message: "Prompt Updated!", status: 1 }))
+            else dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+          .catch(err => {
+            console.log(err)
+            dispatch(showNotification({ message: "Fail!", status: 0 }))
+          })
+      }
       closeModal()
     }
   }

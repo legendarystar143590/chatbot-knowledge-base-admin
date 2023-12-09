@@ -8,7 +8,7 @@ export const getPrePromptsContent = createAsyncThunk('/preprompts/content', asyn
     headers: {
       'ngrok-skip-browser-warning': "1",
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'https://9797-156-220-22-73.ngrok-free.app.env',
+      'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
     }
   })
   return response.data;
@@ -95,7 +95,7 @@ export const prePromptsSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(deletePrePrompt.fulfilled, (state, { payload }) => {
-      state.prePrompts = state.prePrompts.filter(prompt => prompt.id === payload.id)
+      state.prePrompts = state.prePrompts.filter(prompt => prompt.id !== payload.id)
       state.isLoading = false
     })
     builder.addCase(deletePrePrompt.rejected, (state) => {

@@ -1,7 +1,7 @@
 import Subtitle from "../Typography/Subtitle"
 
 type PropTypes = {
-  title: string,
+  title: string | JSX.Element,
   children: any,
   topMargin?: string,
   TopSideButtons?: any
