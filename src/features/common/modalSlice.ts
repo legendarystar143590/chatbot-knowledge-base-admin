@@ -11,10 +11,11 @@ export const modalSlice = createSlice({
       message: "",
       type: "",
       id: "",
+      assistant_id: "",
       title: "",
       prompt: "",
       name: "",
-      status: ""
+      status: "",
     },
   },
   reducers: {
@@ -36,6 +37,7 @@ export const modalSlice = createSlice({
         message: "",
         type: "",
         id: "",
+        assistant_id: "",
         title: "",
         prompt: "",
         name: "",
