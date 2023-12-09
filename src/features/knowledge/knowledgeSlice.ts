@@ -85,7 +85,7 @@ export const knowledgeSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(getKnowledgeContent.fulfilled, (state, { payload }) => {
-      if (payload?.result === 'Failed!' || 'Not found')
+      if (payload?.result === 'Failed!' || payload?.result === 'Not found')
         state.knowledges = [{
           id: "",
           name: "",
