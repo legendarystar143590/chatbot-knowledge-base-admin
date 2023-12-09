@@ -8,12 +8,13 @@ import SearchBar from "../../components/Input/SearchBar"
 // import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
-import { FaceFrownIcon } from "@heroicons/react/24/outline"
+import { Cog6ToothIcon, FaceFrownIcon } from "@heroicons/react/24/outline"
 import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../app/store"
 import { getKnowledgeContent } from "./knowledgeSlice"
 import { getAssistantContent } from "../assistants/assistantsSlice"
+import AssistantSettingModal from "./components/AssistantSettingModal"
 
 type PropTypes = {
   applySearch: Function,
@@ -68,6 +69,7 @@ function KnowledgeBase() {
 
   const [knowledgeBase, setKnowledgeBase] = useState(knowledges)
   const [selectedAssistance, setSelectedAssistance] = useState("-1")
+  const [assistantModalOpen, setAssistantModalOpen] = useState(false)
 
   useEffect(() => {
     dispatch(getAssistantContent())
@@ -111,8 +113,13 @@ function KnowledgeBase() {
     setSelectedAssistance(e.target.value)
   }
 
-  const openAddNewAssistantModal = () => {
-    dispatch(openModal({ title: "Add New Assistant", bodyType: MODAL_BODY_TYPES.ASSISTANT_ADD_NEW }))
+  const openAssistantSettingModal = () => {
+    // dispatch(openModal({ title: "Add New Assistant", bodyType: MODAL_BODY_TYPES.ASSISTANT_ADD_NEW }))
+    setAssistantModalOpen(true)
+  }
+
+  const handleAssistantModalOpen = () => {
+    setAssistantModalOpen(false);
   }
 
   const assistantsSelect = (
@@ -125,8 +132,9 @@ function KnowledgeBase() {
           ))
         }
       </select>
-      <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-neutral text-white" onClick={() => openAddNewAssistantModal()}>
-        <PlusSmallIcon className="w-6 h-6" />
+      <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-neutral text-white" onClick={() => openAssistantSettingModal()}>
+        {/* <PlusSmallIcon className="w-6 h-6" /> */}
+        <Cog6ToothIcon className="w-5 h-5" />
       </button>
     </div>
   )
@@ -140,52 +148,55 @@ function KnowledgeBase() {
   }
 
   return (
-    <TitleCard title={assistantsSelect} topMargin="mt-2" TopSideButtons={<TopSideButtons selected={selectedAssistance} applySearch={applySearch} />}>
+    <>
+      <TitleCard title={assistantsSelect} topMargin="mt-2" TopSideButtons={<TopSideButtons selected={selectedAssistance} applySearch={applySearch} />}>
 
-      {/* Team Member list in table format loaded constant */}
-      {
-        knowledgeBase.length !== 1 || knowledgeBase[0].name !== "" ? (
-          <div className="overflow-x-auto w-full">
-            <table className="table w-full table-sm lg:table-lg">
-              <thead>
-                <tr className="text-sm">
-                  <th className="w-12 text-center">No</th>
-                  <th className="text-center">Name</th>
-                  <th className="text-center">Type</th>
-                  {/* <th className="text-center">Status</th> */}
-                  <th className="text-center">Date</th>
-                  <th className="w-12 text-right"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  knowledgeBase.map((l, k) => l.id && (
-                    <tr key={k}>
-                      <td className="text-center">{k + 1}</td>
-                      <td>
-                        <div className="font-bold">{l.name}</div>
-                      </td>
-                      <td>{l.type_of_knowledge}</td>
-                      {/* <td>{getStatus(l.status)}</td> */}
-                      <td>{l.date}</td>
-                      <td className="text-right">
-                        <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentKnowledge(l.id)}>
-                          <TrashIcon className="w-5" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="text-2xl flex justify-center items-center gap-2 text-center">
-            <FaceFrownIcon className="w-12 h-12" />
-            No Knowledge Base
-          </div>
-        )}
-    </TitleCard>
+        {/* Team Member list in table format loaded constant */}
+        {
+          knowledgeBase.length !== 1 || knowledgeBase[0].name !== "" ? (
+            <div className="overflow-x-auto w-full">
+              <table className="table w-full table-sm lg:table-lg">
+                <thead>
+                  <tr className="text-sm">
+                    <th className="w-12 text-center">No</th>
+                    <th className="text-center">Name</th>
+                    <th className="text-center">Type</th>
+                    {/* <th className="text-center">Status</th> */}
+                    <th className="text-center">Date</th>
+                    <th className="w-12 text-right"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    knowledgeBase.map((l, k) => l.id && (
+                      <tr key={k}>
+                        <td className="text-center">{k + 1}</td>
+                        <td>
+                          <div className="font-bold">{l.name}</div>
+                        </td>
+                        <td>{l.type_of_knowledge}</td>
+                        {/* <td>{getStatus(l.status)}</td> */}
+                        <td>{l.date}</td>
+                        <td className="text-right">
+                          <button className="btn btn-square btn-ghost" onClick={() => deleteCurrentKnowledge(l.id)}>
+                            <TrashIcon className="w-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-2xl flex justify-center items-center gap-2 text-center">
+              <FaceFrownIcon className="w-12 h-12" />
+              No Knowledge Base
+            </div>
+          )}
+      </TitleCard>
+      <AssistantSettingModal isOpen={assistantModalOpen} closeModal={handleAssistantModalOpen} />
+    </>
   )
 }
 
