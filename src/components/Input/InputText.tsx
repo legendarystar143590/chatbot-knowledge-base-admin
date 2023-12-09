@@ -27,7 +27,7 @@ function InputText({ labelTitle, labelStyle, type, containerStyle, defaultValue,
       </label>
       {
         type === "file" ? (
-          <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="file-input file-input-bordered w-full " />
+          <input type={type || "file"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="file-input file-input-bordered w-full " />
         ) : (
           <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input input-bordered w-full " />
         )

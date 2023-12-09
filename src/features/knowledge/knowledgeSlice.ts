@@ -107,7 +107,10 @@ export const knowledgeSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(addNewKnowledge.fulfilled, (state, { payload }) => {
-      state.knowledges = [...state.knowledges, payload]
+      if(state.knowledges.length === 1 && state.knowledges[0].id === "") {
+        state.knowledges = payload;
+      }
+      else state.knowledges = [...state.knowledges, payload]
       state.isLoading = false
     })
     builder.addCase(addNewKnowledge.rejected, (state) => {

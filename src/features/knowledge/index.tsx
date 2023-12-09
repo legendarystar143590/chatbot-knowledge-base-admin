@@ -46,7 +46,7 @@ const TopSideButtons = ({ applySearch, selected }: PropTypes) => {
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
       <div className="dropdown dropdown-bottom dropdown-end">
-        <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6">
+        <button tabIndex={0} className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6" disabled={selected === "-1"}>
           <PlusSmallIcon className="w-6 h-6 sm:hidden" />
           <span className="hidden sm:block">Add New</span>
         </button>
@@ -120,7 +120,7 @@ function KnowledgeBase() {
       <select className="select select-bordered select-sm max-w-xs mr-5 input-sm w-full" value={selectedAssistance} onChange={e => changeSelectedAssistant(e)}>
         <option disabled value='-1'>Choose Assistant</option>
         {
-          assistants.map(assistant => (
+          assistants.map(assistant => assistant.assistant_name && (
             <option key={assistant.id} value={assistant.id}>{assistant.assistant_name}</option>
           ))
         }

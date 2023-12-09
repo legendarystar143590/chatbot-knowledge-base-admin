@@ -68,7 +68,7 @@ function PushPrompts() {
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = pushPrompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
+    let filteredPrompts = pushPrompts.filter((t) => { return t.prompt.toLowerCase().includes(value.toLowerCase()) })
     setPrompts(filteredPrompts)
   }
 
