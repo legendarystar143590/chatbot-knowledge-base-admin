@@ -23,7 +23,8 @@ export type KnowledgeBase = {
   assistant_id: string,
   type_of_knowledge: string,
   status: string,
-  date?: string
+  date?: string,
+  file?: File | null
 }
 
 export type Prompt = {

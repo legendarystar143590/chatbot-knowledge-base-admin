@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { useDispatch } from "react-redux"
 import InputText from '../../../components/Input/InputText'
 import ErrorText from '../../../components/Typography/ErrorText'
@@ -32,6 +32,7 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
 
   const [errorMessage, setErrorMessage] = useState("")
   const [knowledge, setKnowledge] = useState(extraObject ? extraObject : INITIAL_KNOWLEDGE_OBJ)
+  const [file, setFile] = useState<File>()
 
   const saveNewKnowledge = () => {
     if (knowledge.name.trim() === "") return setErrorMessage("Incorrect Input!")
@@ -41,6 +42,7 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
         type_of_knowledge: knowledge.type,
         assistant_id: extraObject.assistant_id,
         status: "pending",
+        file: file
       }
 
       if (isNew) {
@@ -66,14 +68,20 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
             dispatch(showNotification({ message: "Fail!", status: 0 }))
           })
       }
-      
       closeModal()
     }
   }
 
-  const updateFormValue = (updateType: string, value: string) => {
+  const updateFormValue = (updateType: string, value: string | File) => {
     setErrorMessage("")
     setKnowledge({ ...knowledge, [updateType]: value })
+  }
+
+  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0])
+      setKnowledge({ ...knowledge, name: e.target.files[0].name });
+    }
   }
 
   return (
@@ -82,7 +90,13 @@ function AddKnowledgeModalBody({ closeModal, extraObject }: PropTypes) {
         knowledge.type === "URL" ? (
           <InputText type="text" defaultValue={knowledge.name ? knowledge.name : ""} updateType="name" containerStyle="mt-4" labelTitle="URL" updateFormValue={updateFormValue} />
         ) : (
-          <InputText type="file" defaultValue={knowledge.name ? knowledge.name : ""} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} />
+          // <InputFile defaultValue={knowledge.name ? knowledge.name : ""} updateType="name" containerStyle="mt-4" labelTitle="File" updateFormValue={updateFormValue} acceptedFile=".txt, .xlsx" />
+          <div className="form-control w-full mt-4">
+            <label className="label">
+              <span className="label-text text-base-content"> File </span>
+            </label>
+            <input type="file" onChange={(e) => handleFile(e)} className="file-input file-input-bordered w-full" />
+          </div>
         )
       }
 
