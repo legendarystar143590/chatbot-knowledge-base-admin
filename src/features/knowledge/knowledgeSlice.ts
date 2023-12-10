@@ -29,8 +29,9 @@ export const addNewKnowledge = createAsyncThunk('/knowledge/add', async (knowled
     return response.data;
   } else {
     const response = await axios.post(KNOWLEDGE_BASE_API.ADD_KNOWLEDGE_BASE, {
-      assistant_id: "123",
-      file: knowledge.name,
+      assistant_id: knowledge.assistant_id,
+      knowledge_name: knowledge.name,
+      file: knowledge.file
     }, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -53,7 +54,6 @@ export const deleteKnowledge = createAsyncThunk('/knowledge/delete', async (id: 
   const response = await axios.post(KNOWLEDGE_BASE_API.DELETE_KNOWLEDGE_BASE, {
     id: id
   })
-  console.log(response.data)
   return response.data;
 })
 
@@ -107,8 +107,8 @@ export const knowledgeSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(addNewKnowledge.fulfilled, (state, { payload }) => {
-      if(state.knowledges.length === 1 && state.knowledges[0].id === "") {
-        state.knowledges = payload;
+      if (state.knowledges.length === 1 && state.knowledges[0].id === "") {
+        state.knowledges = [payload];
       }
       else state.knowledges = [...state.knowledges, payload]
       state.isLoading = false
