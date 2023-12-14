@@ -8,14 +8,15 @@ import { AppDispatch } from "../../../app/store"
 
 const INITIAL_PUSH_PROMPT_OBJ = {
   id: "",
-  prompt: ""
+  prompt: "",
+  assistant_id: ""
 }
 
 type PropTypes = {
   closeModal: () => void,
   extraObject?: {
     id: string,
-    title: string,
+    assistant_id: string,
     prompt: string
   }
 }
@@ -24,7 +25,7 @@ function AddPushPromptModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
 
-  const isNew = extraObject ? false : true
+  const isNew = extraObject?.id ? false : true
 
   const [errorMessage, setErrorMessage] = useState("")
   const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_PUSH_PROMPT_OBJ)
@@ -34,6 +35,7 @@ function AddPushPromptModalBody({ closeModal, extraObject }: PropTypes) {
     else {
       let newPrompt = {
         id: promptObj.id,
+        assistant_id: promptObj.assistant_id,
         prompt: promptObj.prompt,
       }
       

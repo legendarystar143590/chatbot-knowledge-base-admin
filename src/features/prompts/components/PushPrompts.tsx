@@ -34,7 +34,7 @@ const TopSideButtons = ({ applySearch, selected }: TopSidePropTypes) => {
   }
 
   const openAddNewPromptModal = () => {
-    dispatch(openModal({ title: "Add New Prompt", bodyType: MODAL_BODY_TYPES.PUSH_PROMPT_ADD_NEW }))
+    dispatch(openModal({ title: "Add New Prompt", bodyType: MODAL_BODY_TYPES.PUSH_PROMPT_ADD_NEW, extraObject: { assistant_id: selected, title: "", prompt: ""  } }))
   }
 
   useEffect(() => {

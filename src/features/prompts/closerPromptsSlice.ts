@@ -19,7 +19,7 @@ export const getCloserPromptsContent = createAsyncThunk('/closerprompts/content'
 
 export const addNewCloserPrompt = createAsyncThunk('/closerprompts/add', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.ADD_CLOSER_PROMPT, {
-    title: prompt.title,
+    assistant_id: prompt.assistant_id,
     prompt: prompt.prompt
   })
   return response.data;
@@ -28,7 +28,6 @@ export const addNewCloserPrompt = createAsyncThunk('/closerprompts/add', async (
 export const updateCloserPrompt = createAsyncThunk('/closerprompts/update', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.UPDATE_CLOSER_PROMPT, {
     id: prompt.id,
-    title: prompt.title,
     prompt: prompt.prompt
   })
   return response.data;
@@ -47,7 +46,7 @@ export const closerPromptsSlice = createSlice({
     isLoading: false,
     closerPrompts: [{
       id: "",
-      title: "",
+      assistant_id: "",
       prompt: "",
       date: ""
     }]

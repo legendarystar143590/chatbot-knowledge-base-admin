@@ -9,13 +9,15 @@ import { AppDispatch } from "../../../app/store"
 const INITIAL_PRE_PROMPT_OBJ = {
   id: "",
   title: "",
-  prompt: ""
+  prompt: "",
+  assistant_id: "",
 }
 
 type PropTypes = {
   closeModal: () => void,
   extraObject?: {
     id: string,
+    assistant_id: string,
     title: string,
     prompt: string
   }
@@ -25,7 +27,7 @@ function AddPrePromptModalBody({ closeModal, extraObject }: PropTypes) {
   const dispatch: AppDispatch = useDispatch()
   // const [loading, setLoading] = useState(false)
 
-  const isNew = extraObject ? false : true
+  const isNew = extraObject?.id ? false : true
 
   const [errorMessage, setErrorMessage] = useState("")
   const [promptObj, setPromptObj] = useState(extraObject ? extraObject : INITIAL_PRE_PROMPT_OBJ)
@@ -36,6 +38,7 @@ function AddPrePromptModalBody({ closeModal, extraObject }: PropTypes) {
     else {
       let newPrompt = {
         id: promptObj.id,
+        assistant_id: promptObj.assistant_id,
         title: promptObj.title,
         prompt: promptObj.prompt,
       }
