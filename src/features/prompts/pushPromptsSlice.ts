@@ -3,12 +3,15 @@ import axios from 'axios'
 import { PROMPT_API } from '../../utils/serverURL';
 import { Prompt } from '../../utils/Type';
 
-export const getPushPromptsContent = createAsyncThunk('/pushprompts/content', async () => {
+export const getPushPromptsContent = createAsyncThunk('/pushprompts/content', async (assistant_id: string) => {
   const response = await axios.get(PROMPT_API.GET_PUSH_PROMPTS, {
     headers: {
       'ngrok-skip-browser-warning': "1",
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
+    },
+    params: {
+      assistant_id: assistant_id
     }
   })
   return response.data;

@@ -7,8 +7,8 @@ import { AppDispatch } from "../../../app/store"
 import { addNewAssistant, updateAssistant } from "../assistantsSlice"
 
 const INITIAL_ASSISTANT_OBJ = {
+  id: "",
   assistant_name: "",
-  date: ""
 }
 
 type PropTypes = {
@@ -32,6 +32,7 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
     if (assistant.assistant_name.trim() === "") return setErrorMessage("Assistant Name required!")
     else {
       let newAssistant = {
+        id: assistant.id,
         assistant_name: assistant.assistant_name,
       }
 

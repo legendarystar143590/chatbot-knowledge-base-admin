@@ -14,11 +14,16 @@ import { AppDispatch, RootState } from "../../../app/store"
 import { getCloserPromptsContent } from "../closerPromptsSlice"
 import { Prompt } from "../../../utils/Type"
 
-type PropTypes = {
-  applySearch: Function
+type TopSidePropTypes = {
+  applySearch: Function,
+  selected: string
 }
 
-const TopSideButtons = ({ applySearch }: PropTypes) => {
+type PropTypes = {
+  assistant_id: string
+}
+
+const TopSideButtons = ({ applySearch, selected }: TopSidePropTypes) => {
 
   const dispatch = useDispatch()
 
@@ -43,7 +48,11 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   return (
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-      <button className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6" onClick={() => openAddNewPromptModal()}>
+      <button
+        className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6"
+        disabled={selected === '-1'}
+        onClick={() => openAddNewPromptModal()}
+      >
         <PlusSmallIcon className="w-6 h-6 sm:hidden" />
         <span className="hidden sm:block">Add New</span>
       </button>
@@ -51,7 +60,7 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   )
 }
 
-function CloserPrompts() {
+function CloserPrompts({ assistant_id }: PropTypes) {
 
   const { closerPrompts, isLoading } = useSelector((state: RootState) => state.closerPrompt)
   const dispatch: AppDispatch = useDispatch()
@@ -59,8 +68,8 @@ function CloserPrompts() {
   const [prompts, setPrompts] = useState(closerPrompts)
 
   useEffect(() => {
-    dispatch(getCloserPromptsContent())
-  }, [])
+    dispatch(getCloserPromptsContent(assistant_id))
+  }, [assistant_id])
 
   useEffect(() => {
     setPrompts(closerPrompts);
@@ -92,7 +101,7 @@ function CloserPrompts() {
   }
 
   return (
-    <TitleCard title="CloserPrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+    <TitleCard title="CloserPrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons selected={assistant_id} applySearch={applySearch} />}>
 
       {/* Team Member list in table format loaded constant */}
       {

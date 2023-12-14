@@ -19,17 +19,17 @@ function AssistantCard({ assistant }: PropTypes) {
   const deleteCurrentAssistant = (id: string) => {
     dispatch(openModal({
       title: "Confirmation", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-      extraObject: { message: `Are you sure you want to delete this assistant?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.KNOWLEDGE_DELETE, id }
+      extraObject: { message: `Are you sure you want to delete this assistant?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.ASSISTANT_DELETE, id }
     }))
   }
 
   const editCurrentAssistant = () => {
-    dispatch(openModal({ title: "Edit Assistant", bodyType: MODAL_BODY_TYPES.PRE_PROMPT_UPDATE, extraObject: { id: assistant.id, asssitant_name: assistant.assistant_name } }))
+    dispatch(openModal({ title: "Edit Assistant", bodyType: MODAL_BODY_TYPES.ASSISTANT_UPDATE, extraObject: { id: assistant.id, assistant_name: assistant.assistant_name } }))
   }
 
   return (
     <div className="group relative">
-      <div className="card card-compact bg-base-100 shadow-xl transition duration-300 ease-in-out group-hover:opacity-30 group">
+      <div className="card card-compact bg-base-100 shadow-xl transition duration-300 ease-in-out group-hover:opacity-30 group h-full">
         <figure><img className="w-48 h-48" src="/logo.png" alt="bot" /></figure>
         <div className="card-body">
           <h2 className="card-title">{assistant.assistant_name}</h2>

@@ -93,7 +93,7 @@ function AssistantSettingModal({ isOpen, closeModal }: PropTypes) {
   return (
     <div className={`modal ${isOpen ? "modal-open" : ""}`}>
       <div className="modal-box">
-        <button className="btn btn-sm btn-circle absolute right-2 top-2" onClick={() => close()}>✕</button>
+        <button className="btn btn-sm btn-circle absolute right-2 top-2" onClick={() => closeModal()}>✕</button>
         <TitleCard title="Assistant" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
           {/* Team Member list in table format loaded constant */}
