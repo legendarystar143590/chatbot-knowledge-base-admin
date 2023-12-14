@@ -19,7 +19,7 @@ export const getPushPromptsContent = createAsyncThunk('/pushprompts/content', as
 
 export const addNewPushPrompt = createAsyncThunk('/pushprompts/add', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.ADD_PUSH_PROMPT, {
-    title: prompt.title,
+    assistant_id: prompt.assistant_id,
     prompt: prompt.prompt
   })
   return response.data;
@@ -28,7 +28,6 @@ export const addNewPushPrompt = createAsyncThunk('/pushprompts/add', async (prom
 export const updatePushPrompt = createAsyncThunk('/pushprompts/update', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.UPDATE_PUSH_PROMPT, {
     id: prompt.id,
-    title: prompt.title,
     prompt: prompt.prompt
   })
   return response.data;
@@ -47,7 +46,7 @@ export const pushPromptsSlice = createSlice({
     isLoading: false,
     pushPrompts: [{
       id: "",
-      title: "",
+      assistant_id: "",
       prompt: "",
       date: ""
     }]

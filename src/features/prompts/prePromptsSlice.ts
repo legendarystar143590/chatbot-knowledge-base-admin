@@ -19,6 +19,7 @@ export const getPrePromptsContent = createAsyncThunk('/preprompts/content', asyn
 
 export const addNewPrePrompt = createAsyncThunk('/preprompts/add', async (prompt: Prompt) => {
   const response = await axios.post(PROMPT_API.ADD_PRE_PROMPT, {
+    assistant_id: prompt.assistant_id,
     title: prompt.title,
     prompt: prompt.prompt
   })
@@ -47,6 +48,7 @@ export const prePromptsSlice = createSlice({
     isLoading: false,
     prePrompts: [{
       id: "",
+      assistant_id: "",
       title: "",
       prompt: "",
       date: ""

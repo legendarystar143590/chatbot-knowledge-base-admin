@@ -29,6 +29,7 @@ export type KnowledgeBase = {
 
 export type Prompt = {
   id?: string,
+  assistant_id: string,
   title?: string,
   prompt: string,
   date?: string
