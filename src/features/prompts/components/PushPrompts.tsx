@@ -14,11 +14,16 @@ import { AppDispatch, RootState } from "../../../app/store"
 import { getPushPromptsContent } from "../pushPromptsSlice"
 import { Prompt } from "../../../utils/Type"
 
-type PropTypes = {
-  applySearch: Function
+type TopSidePropTypes = {
+  applySearch: Function,
+  selected: string
 }
 
-const TopSideButtons = ({ applySearch }: PropTypes) => {
+type PropTypes = {
+  assistant_id: string
+}
+
+const TopSideButtons = ({ applySearch, selected }: TopSidePropTypes) => {
 
   const dispatch = useDispatch()
 
@@ -43,7 +48,11 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   return (
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-      <button className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6" onClick={() => openAddNewPromptModal()}>
+      <button
+        className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6"
+        disabled={selected === '-1'}
+        onClick={() => openAddNewPromptModal()}
+      >
         <PlusSmallIcon className="w-6 h-6 sm:hidden" />
         <span className="hidden sm:block">Add New</span>
       </button>
@@ -51,7 +60,7 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   )
 }
 
-function PushPrompts() {
+function PushPrompts({ assistant_id }: PropTypes) {
 
   const { pushPrompts, isLoading } = useSelector((state: RootState) => state.pushPrompt)
   const dispatch: AppDispatch = useDispatch()
@@ -59,8 +68,8 @@ function PushPrompts() {
   const [prompts, setPrompts] = useState(pushPrompts)
 
   useEffect(() => {
-    dispatch(getPushPromptsContent())
-  }, [])
+    dispatch(getPushPromptsContent(assistant_id))
+  }, [assistant_id])
 
   useEffect(() => {
     setPrompts(pushPrompts);
@@ -92,7 +101,7 @@ function PushPrompts() {
   }
 
   return (
-    <TitleCard title="PushPrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+    <TitleCard title="PushPrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons selected={assistant_id} applySearch={applySearch} />}>
 
       {/* Team Member list in table format loaded constant */}
       {

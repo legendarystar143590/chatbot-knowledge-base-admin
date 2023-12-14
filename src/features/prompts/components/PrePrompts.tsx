@@ -14,11 +14,16 @@ import { AppDispatch, RootState } from "../../../app/store"
 import { getPrePromptsContent } from "../prePromptsSlice"
 import { Prompt } from "../../../utils/Type"
 
-type PropTypes = {
-  applySearch: Function
+type TopSidePropTypes = {
+  applySearch: Function,
+  selected: string
 }
 
-const TopSideButtons = ({ applySearch }: PropTypes) => {
+type PropTypes = {
+  assistant_id: string
+}
+
+const TopSideButtons = ({ applySearch, selected }: TopSidePropTypes) => {
 
   const dispatch = useDispatch()
 
@@ -43,7 +48,11 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   return (
     <div className="flex items-center">
       <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-      <button className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6" onClick={() => openAddNewPromptModal()}>
+      <button
+        className="btn px-3 btn-sm normal-case btn-primary text-white sm:px-6"
+        disabled={selected === '-1'}
+        onClick={() => openAddNewPromptModal()}
+      >
         <PlusSmallIcon className="w-6 h-6 sm:hidden" />
         <span className="hidden sm:block">Add New</span>
       </button>
@@ -51,7 +60,7 @@ const TopSideButtons = ({ applySearch }: PropTypes) => {
   )
 }
 
-function PrePrompts() {
+function PrePrompts({ assistant_id }: PropTypes) {
 
   const { prePrompts, isLoading } = useSelector((state: RootState) => state.prePrompt)
   const dispatch: AppDispatch = useDispatch()
@@ -59,8 +68,8 @@ function PrePrompts() {
   const [prompts, setPrompts] = useState(prePrompts)
 
   useEffect(() => {
-    dispatch(getPrePromptsContent())
-  }, [])
+    dispatch(getPrePromptsContent(assistant_id))
+  }, [assistant_id])
 
   useEffect(() => {
     setPrompts(prePrompts);
@@ -92,7 +101,7 @@ function PrePrompts() {
   }
 
   return (
-    <TitleCard title="PrePrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+    <TitleCard title="PrePrompts" topMargin="mt-2" TopSideButtons={<TopSideButtons selected={assistant_id} applySearch={applySearch} />}>
 
       {/* Team Member list in table format loaded constant */}
       {
@@ -110,24 +119,23 @@ function PrePrompts() {
               </thead>
               <tbody>
                 {
-                  prompts.map((l, k) => {
-                    return (
-                      <tr key={k}>
-                        <td className="text-center">{k + 1}</td>
-                        <td>
-                          <div className="font-bold">{l.title}</div>
-                        </td>
-                        <td>{l.prompt}</td>
-                        <td>{l.date}</td>
-                        <td className="text-right">
-                          <div className="flex">
-                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentPrompt(l)}><PencilSquareIcon className="w-5" /></button>
-                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentPrompt(l.id)}><TrashIcon className="w-5" /></button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })
+                  prompts.map((l, k) => (
+                    <tr key={k}>
+                      <td className="text-center">{k + 1}</td>
+                      <td>
+                        <div className="font-bold">{l.title}</div>
+                      </td>
+                      <td>{l.prompt}</td>
+                      <td>{l.date}</td>
+                      <td className="text-right">
+                        <div className="flex">
+                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentPrompt(l)}><PencilSquareIcon className="w-5" /></button>
+                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentPrompt(l.id)}><TrashIcon className="w-5" /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                  )
                 }
               </tbody>
             </table>
