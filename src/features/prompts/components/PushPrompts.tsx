@@ -105,7 +105,7 @@ function PushPrompts({ assistant_id }: PropTypes) {
 
       {/* Team Member list in table format loaded constant */}
       {
-        prompts.length !== 1 || prompts[0].title !== "" ? (
+        prompts.length !== 1 || prompts[0].prompt !== "" ? (
           <div className="overflow-x-auto w-full">
             <table className="table w-full table-sm lg:table-lg">
               <thead>
