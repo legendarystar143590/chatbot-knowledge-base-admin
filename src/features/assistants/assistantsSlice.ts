@@ -26,6 +26,7 @@ export const updateAssistant = createAsyncThunk('/assistant/update', async (assi
   const response = await axios.post(ASSISTANT_API.UPDATE_ASSISTANT, {
     id: assistant.id,
     assistant_name: assistant.assistant_name,
+    prompt: assistant.prompt
   })
   return response.data;
 })
