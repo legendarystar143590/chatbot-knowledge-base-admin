@@ -9,6 +9,7 @@ import { addNewAssistant, updateAssistant } from "../assistantsSlice"
 const INITIAL_ASSISTANT_OBJ = {
   id: "",
   assistant_name: "",
+  prompt: ""
 }
 
 type PropTypes = {
@@ -16,6 +17,7 @@ type PropTypes = {
   extraObject?: {
     id?: string
     assistant_name: string,
+    prompt: string
   }
 }
 
@@ -30,10 +32,12 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
 
   const saveNewAssistant = () => {
     if (assistant.assistant_name.trim() === "") return setErrorMessage("Assistant Name required!")
+    else if (assistant.prompt.trim() === "") return setErrorMessage("Assistant Prompt required!")
     else {
       let newAssistant = {
         id: assistant.id,
         assistant_name: assistant.assistant_name,
+        prompt: assistant.prompt
       }
 
       if (isNew) {
@@ -72,6 +76,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
   return (
     <>
       <InputText type="text" defaultValue={assistant.assistant_name} updateType="assistant_name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
+
+      <div className="form-control w-full mt-4">
+        <label className="label">
+          <span className="label-text text-base-content">Prompt</span>
+        </label>
+        <textarea className="textarea textarea-bordered min-h-[300px]" value={assistant.prompt} onChange={(e) => updateFormValue('prompt', e.target.value)}></textarea>
+      </div>
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
       <div className="modal-action">

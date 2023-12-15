@@ -14,7 +14,8 @@ export type SideMenu = Array<{
 export type Assistant = {
   id?: string,
   assistant_name: string,
-  date?: string
+  date?: string,
+  prompt: string
 }
 
 export type KnowledgeBase = {

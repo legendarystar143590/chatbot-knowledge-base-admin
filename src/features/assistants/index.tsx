@@ -111,6 +111,7 @@ function Assistants() {
                 <tr className="text-sm">
                   <th className="w-12 text-center">No</th>
                   <th className="text-center">Name</th>
+                  <th className="text-center">Prompt</th>
                   <th className="text-center">Date</th>
                   <th className="w-12 text-right"></th>
                 </tr>
@@ -123,6 +124,7 @@ function Assistants() {
                       <td>
                         <div className="font-bold text-center">{l.assistant_name}</div>
                       </td>
+                      <td>{l.prompt}</td>
                       <td>{l.date}</td>
                       <td className="text-right">
                         <div className="flex">

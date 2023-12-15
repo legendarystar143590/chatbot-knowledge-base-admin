@@ -17,6 +17,7 @@ export const getAssistantContent = createAsyncThunk('/assistant/content', async 
 export const addNewAssistant = createAsyncThunk('/assistant/add', async (assistant: Assistant) => {
   const response = await axios.post(ASSISTANT_API.ADD_ASSISTANT, {
     assistant_name: assistant.assistant_name,
+    prompt: assistant.prompt
   })
   return response.data;
 })
@@ -25,6 +26,19 @@ export const updateAssistant = createAsyncThunk('/assistant/update', async (assi
   const response = await axios.post(ASSISTANT_API.UPDATE_ASSISTANT, {
     id: assistant.id,
     assistant_name: assistant.assistant_name,
+  })
+  return response.data;
+})
+
+type PromptType = {
+  id: string,
+  prompt: string
+}
+
+export const updatePrompt = createAsyncThunk('/assistant/update', async (assistant: PromptType) => {
+  const response = await axios.post(ASSISTANT_API.UPDATE_ASSISTANT, {
+    id: assistant.id,
+    prompt: assistant.prompt,
   })
   return response.data;
 })
@@ -43,6 +57,7 @@ export const assistantsSlice = createSlice({
     assistants: [{
       id: "",
       assistant_name: "",
+      prompt: "",
       date: ""
     }]
   },
