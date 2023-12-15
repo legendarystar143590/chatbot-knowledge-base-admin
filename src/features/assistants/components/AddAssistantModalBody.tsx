@@ -19,7 +19,7 @@ type PropTypes = {
     id?: string
     assistant_name: string,
     prompt: string,
-    use_sql: false
+    use_sql: boolean
   }
 }
 
