@@ -5,6 +5,7 @@ import PrePrompts from "./components/PrePrompts"
 import PushPrompts from "./components/PushPrompts"
 import { AppDispatch, RootState } from "../../app/store"
 import { getAssistantContent } from "../assistants/assistantsSlice"
+import Prompt from "./components/Prompt"
 
 function Prompts() {
   const { assistants } = useSelector((state: RootState) => state.assistant)
@@ -45,6 +46,11 @@ function Prompts() {
         <input type="radio" name="my_tabs" role="tab" className="tab" aria-label="PushPrompts" />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <PushPrompts assistant_id={selectedAssistance} />
+        </div>
+
+        <input type="radio" name="my_tabs" role="tab" className="tab" aria-label="Prompt" />
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+          <Prompt assistant_id={selectedAssistance} />
         </div>
       </div>
     </div>
