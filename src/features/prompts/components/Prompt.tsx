@@ -40,9 +40,9 @@ function Prompt({ assistant_id }: PropTypes) {
   }
 
   return (
-    <div className="form-control w-full mt-4 gap-8">
-      <textarea className="textarea textarea-bordered min-h-[250px]" value={prompt} onChange={(e) => setPrompt(e.target.value)}></textarea>
-      <button className="btn btn-primary w-fit" onClick={() => handleSave()}>Save</button>
+    <div className="form-control w-full mt-4 gap-8 items-end">
+      <textarea className="textarea textarea-bordered min-h-[250px] w-full" value={prompt} onChange={(e) => setPrompt(e.target.value)}></textarea>
+      <button className="btn btn-primary w-fit" disabled={assistant_id === '-1'} onClick={() => handleSave()}>Save</button>
     </div>
   )
 }
