@@ -15,6 +15,7 @@ export const modalSlice = createSlice({
       assistant_name: "",
       title: "",
       prompt: "",
+      use_sql: false,
       name: "",
       status: "",
     },
@@ -42,6 +43,7 @@ export const modalSlice = createSlice({
         assistant_name: "",
         title: "",
         prompt: "",
+        use_sql: false,
         name: "",
         status: ""
       }

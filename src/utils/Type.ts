@@ -15,7 +15,8 @@ export type Assistant = {
   id?: string,
   assistant_name: string,
   date?: string,
-  prompt: string
+  prompt: string,
+  use_sql: boolean
 }
 
 export type KnowledgeBase = {

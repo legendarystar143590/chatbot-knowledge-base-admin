@@ -8,6 +8,8 @@ import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon"
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
 import { FaceFrownIcon } from "@heroicons/react/24/outline"
+import { CheckIcon } from "@heroicons/react/24/solid"
+import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon"
 import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../app/store"
@@ -112,6 +114,7 @@ function Assistants() {
                   <th className="w-12 text-center">No</th>
                   <th className="text-center">Name</th>
                   <th className="text-center">Prompt</th>
+                  <th className="text-left">Use SQL</th>
                   <th className="text-center">Date</th>
                   <th className="w-12 text-right"></th>
                 </tr>
@@ -125,6 +128,15 @@ function Assistants() {
                         <div className="font-bold text-center">{l.assistant_name}</div>
                       </td>
                       <td>{l.prompt}</td>
+                      <td>
+                        {
+                          l.use_sql ? (
+                            <CheckIcon className="w-8 h-8 text-accent" />
+                          ) : (
+                            <XMarkIcon className="w-8 h-8 text-secondary" />
+                          )
+                        }
+                      </td>
                       <td>{l.date}</td>
                       <td className="text-right">
                         <div className="flex">
