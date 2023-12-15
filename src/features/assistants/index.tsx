@@ -129,13 +129,15 @@ function Assistants() {
                       </td>
                       <td>{l.prompt}</td>
                       <td>
-                        {
-                          l.use_sql ? (
-                            <CheckIcon className="w-8 h-8 text-accent" />
-                          ) : (
-                            <XMarkIcon className="w-8 h-8 text-secondary" />
-                          )
-                        }
+                        <div className="flex justify-center">
+                          {
+                            l.use_sql ? (
+                              <CheckIcon className="w-8 h-8 text-accent" />
+                            ) : (
+                              <XMarkIcon className="w-8 h-8 text-secondary" />
+                            )
+                          }
+                        </div>
                       </td>
                       <td>{l.date}</td>
                       <td className="text-right">
