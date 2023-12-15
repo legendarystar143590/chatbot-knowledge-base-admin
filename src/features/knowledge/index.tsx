@@ -127,7 +127,7 @@ function KnowledgeBase() {
         <option disabled value='-1'>Choose Assistant</option>
         {
           assistants.map(assistant => assistant.assistant_name && (
-            <option key={assistant.id} value={assistant.id}>{assistant.assistant_name}</option>
+            <option className="text-lg" key={assistant.id} value={assistant.id}>{assistant.assistant_name}</option>
           ))
         }
       </select>

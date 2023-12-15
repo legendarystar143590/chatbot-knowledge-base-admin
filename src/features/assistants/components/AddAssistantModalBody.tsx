@@ -9,7 +9,8 @@ import { addNewAssistant, updateAssistant } from "../assistantsSlice"
 const INITIAL_ASSISTANT_OBJ = {
   id: "",
   assistant_name: "",
-  prompt: ""
+  prompt: "",
+  use_sql: false
 }
 
 type PropTypes = {
@@ -17,7 +18,8 @@ type PropTypes = {
   extraObject?: {
     id?: string
     assistant_name: string,
-    prompt: string
+    prompt: string,
+    use_sql: boolean
   }
 }
 
@@ -37,7 +39,8 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
       let newAssistant = {
         id: assistant.id,
         assistant_name: assistant.assistant_name,
-        prompt: assistant.prompt
+        prompt: assistant.prompt,
+        use_sql: assistant.use_sql
       }
 
       if (isNew) {
@@ -68,7 +71,7 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
     }
   }
 
-  const updateFormValue = (updateType: string, value: string) => {
+  const updateFormValue = (updateType: string, value: string | boolean) => {
     setErrorMessage("")
     setAssistant({ ...assistant, [updateType]: value })
   }
@@ -82,6 +85,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
           <span className="label-text text-base-content">Prompt</span>
         </label>
         <textarea className="textarea textarea-bordered min-h-[300px]" value={assistant.prompt} onChange={(e) => updateFormValue('prompt', e.target.value)}></textarea>
+      </div>
+
+      <div className="form-control mt-4">
+        <label className="label cursor-pointer justify-start gap-2">
+          <span className="label-text text-lg">Use SQL</span>
+          <input type="checkbox" checked={assistant.use_sql} className="checkbox checkbox-primary" onChange={() => updateFormValue('use_sql', !assistant.use_sql)} />
+        </label>
       </div>
 
       <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
