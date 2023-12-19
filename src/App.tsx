@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/app/*" element={<Layout />} />
 
-        <Route path="*" element={<Navigate to="/app/knowledge-base" replace />} />
+        <Route path="*" element={<Navigate to="/app/assistants" replace />} />
       </Routes>
     </Router>
   )
