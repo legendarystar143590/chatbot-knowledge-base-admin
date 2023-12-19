@@ -16,7 +16,16 @@ export type Assistant = {
   assistant_name: string,
   date?: string,
   prompt: string,
-  use_sql: boolean
+  use_sql: boolean,
+  sql_host: string,
+  sql_db_name: string,
+  sql_port: string,
+  sql_username: string,
+  sql_password: string,
+  use_pinecone: boolean,
+  pinecone_index_name: string,
+  pinecone_environment: string,
+  pinecone_api_key: string,
 }
 
 export type KnowledgeBase = {

@@ -108,13 +108,14 @@ function Assistants() {
           </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="table w-full table-sm lg:table-lg">
+            <table className="table w-full table-sm">
               <thead>
                 <tr className="text-sm">
-                  <th className="w-12 text-center">No</th>
+                  <th className="text-center p-1">No</th>
                   <th className="text-center">Name</th>
                   <th className="text-center">Prompt</th>
-                  <th className="text-left">Use SQL</th>
+                  <th className="text-center w-12 p-1 wrap">Use <br /> Pinecone</th>
+                  <th className="text-center">Use <br /> SQL</th>
                   <th className="text-center">Date</th>
                   <th className="w-12 text-right"></th>
                 </tr>
@@ -128,6 +129,17 @@ function Assistants() {
                         <div className="font-bold text-center">{l.assistant_name}</div>
                       </td>
                       <td>{l.prompt}</td>
+                      <td className="w-12">
+                        <div className="flex justify-center">
+                          {
+                            l.use_pinecone ? (
+                              <CheckIcon className="w-8 h-8 text-accent" />
+                            ) : (
+                              <XMarkIcon className="w-8 h-8 text-secondary" />
+                            )
+                          }
+                        </div>
+                      </td>
                       <td>
                         <div className="flex justify-center">
                           {

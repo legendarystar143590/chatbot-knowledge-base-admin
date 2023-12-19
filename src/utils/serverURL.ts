@@ -32,3 +32,8 @@ export const ASSISTANT_API = {
   DELETE_ASSISTANT: API_Address + "/del_assistant",     // post
   UPDATE_ASSISTANT: API_Address + "/update_assistant",     // post
 }
+
+export const DATABASE_API = {
+  TEST_SQL_DATABASE: API_Address + "/test_sql_connection",      // post
+  TEST_PINECONE: API_Address + "/test_pinecone_connection",      // post
+}
