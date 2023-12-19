@@ -69,12 +69,14 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
       dispatch(testSQLDatabase(assistant))
         .then(res => {
           if (!res.payload || res.payload.result !== true) {
+            setAssistant({ ...assistant, use_sql: false })
             return dispatch(showNotification({ message: "SQL Database Connection Fail!", status: 0 }))
           }
           saveNewAssistant();
         })
         .catch(err => {
           console.log(err)
+          setAssistant({ ...assistant, use_sql: false })
           return dispatch(showNotification({ message: "SQL Database Connection Fail!", status: 0 }))
         })
     }
@@ -83,12 +85,14 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
       dispatch(testPinecone(assistant))
         .then(res => {
           if (!res.payload || res.payload.result !== true) {
+            setAssistant({ ...assistant, use_pinecone: false })
             return dispatch(showNotification({ message: "Pinecone Connection Fail!", status: 0 }))
           }
           saveNewAssistant();
         })
         .catch(err => {
           console.log(err)
+          setAssistant({ ...assistant, use_pinecone: false })
           return dispatch(showNotification({ message: "Pinecone Connection Fail!", status: 0 }))
         })
     }
