@@ -17,7 +17,7 @@ import { Assistant } from "../../utils/Type"
 import { getAssistantContent } from "./assistantsSlice"
 
 type TopSidePropTypes = {
-  applySearch: Function
+  applySearch: (value: string) => void
 }
 
 const TopSideButtons = ({ applySearch }: TopSidePropTypes) => {
@@ -40,7 +40,7 @@ const TopSideButtons = ({ applySearch }: TopSidePropTypes) => {
     } else {
       applySearch(searchText)
     }
-  }, [searchText])
+  }, [searchText, applySearch])
 
   return (
     <div className="flex items-center">
@@ -65,15 +65,15 @@ function Assistants() {
 
   useEffect(() => {
     dispatch(getAssistantContent())
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-    setAssistant(assistants);
+    setAssistant(assistants)
   }, [assistants])
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredAssistants = assistants.filter((t) => { return t.assistant_name.toLowerCase().includes(value.toLowerCase()) })
+    const filteredAssistants = assistants.filter((t) => { return t.assistant_name.toLowerCase().includes(value.toLowerCase()) })
     setAssistant(filteredAssistants)
   }
 
