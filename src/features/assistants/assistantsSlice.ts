@@ -47,7 +47,8 @@ export const addNewAssistant = createAsyncThunk('/assistant/add', async (assista
     use_pinecone: assistant.use_pinecone,
     pinecone_environment: assistant.pinecone_environment,
     pinecone_index_name: assistant.pinecone_index_name,
-    pinecone_api_key: assistant.pinecone_api_key
+    pinecone_api_key: assistant.pinecone_api_key,
+    use_serp: assistant.use_serp
   })
   return response.data;
 })
@@ -66,7 +67,8 @@ export const updateAssistant = createAsyncThunk('/assistant/update', async (assi
     use_pinecone: assistant.use_pinecone,
     pinecone_environment: assistant.pinecone_environment,
     pinecone_index_name: assistant.pinecone_index_name,
-    pinecone_api_key: assistant.pinecone_api_key
+    pinecone_api_key: assistant.pinecone_api_key,
+    use_serp: assistant.use_serp
   })
   return response.data;
 })
@@ -109,6 +111,7 @@ export const assistantsSlice = createSlice({
       pinecone_index_name: "",
       pinecone_environment: "",
       pinecone_api_key: "",
+      use_serp: false,
       date: ""
     }],
     db_test: false

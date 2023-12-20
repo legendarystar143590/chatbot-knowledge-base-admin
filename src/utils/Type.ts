@@ -26,6 +26,7 @@ export type Assistant = {
   pinecone_index_name: string,
   pinecone_environment: string,
   pinecone_api_key: string,
+  use_serp: boolean
 }
 
 export type KnowledgeBase = {

@@ -25,6 +25,7 @@ export const modalSlice = createSlice({
       pinecone_index_name: "",
       pinecone_environment: "",
       pinecone_api_key: "",
+      use_serp: false,
       name: "",
       status: "",
     },
@@ -62,6 +63,7 @@ export const modalSlice = createSlice({
         pinecone_index_name: "",
         pinecone_environment: "",
         pinecone_api_key: "",
+        use_serp: false,
         name: "",
         status: ""
       }

@@ -19,6 +19,7 @@ const INITIAL_ASSISTANT_OBJ = {
   pinecone_index_name: "",
   pinecone_environment: "",
   pinecone_api_key: "",
+  use_serp: false,
 }
 
 type PropTypes = {
@@ -37,6 +38,7 @@ type PropTypes = {
     pinecone_index_name: string,
     pinecone_environment: string,
     pinecone_api_key: string,
+    use_serp: boolean
   }
 }
 
@@ -186,6 +188,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
               </div>
             )
           }
+        </div>
+
+        <div className="form-control mt-4">
+          <label className="label cursor-pointer justify-start gap-2">
+            <span className="label-text text-lg">Use SERP</span>
+            <input type="checkbox" checked={assistant.use_serp} className="checkbox checkbox-primary" onChange={() => updateFormValue('use_serp', !assistant.use_serp)} />
+          </label>
         </div>
       </div>
       <div className="modal-action">
