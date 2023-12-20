@@ -116,6 +116,7 @@ function Assistants() {
                   <th className="text-center">Prompt</th>
                   <th className="text-center w-12 p-1 wrap">Use <br /> Pinecone</th>
                   <th className="text-center">Use <br /> SQL</th>
+                  <th className="text-center">Use <br /> SERP</th>
                   <th className="text-center">Date</th>
                   <th className="w-12 text-right"></th>
                 </tr>
@@ -144,6 +145,17 @@ function Assistants() {
                         <div className="flex justify-center">
                           {
                             l.use_sql ? (
+                              <CheckIcon className="w-8 h-8 text-accent" />
+                            ) : (
+                              <XMarkIcon className="w-8 h-8 text-secondary" />
+                            )
+                          }
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center">
+                          {
+                            l.use_serp ? (
                               <CheckIcon className="w-8 h-8 text-accent" />
                             ) : (
                               <XMarkIcon className="w-8 h-8 text-secondary" />
