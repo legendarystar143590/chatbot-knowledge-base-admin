@@ -150,8 +150,8 @@ const Landing = () => {
           </video>
           <div className="absolute w-full h-full bg-indigo-900 bg-opacity-70"></div>
           <div className="relative z-10 p-5">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2">Testimonial 1</h2>
-            <p className="text-md md:text-lg">"Obsolete has revolutionized the way we interact with our data. It's like having a personal data analyst!"</p>
+            <h2 className="text-2xl md:text-4xl font-bold mb-2">Peter Snoufax, Lifestyle Blogger and Author at Life Tricks Daily</h2>
+            <p className="text-md md:text-lg">"Using Obsolete has been like finding the missing piece in my daily routine. It's simple, intuitive, and surprisingly fun!"</p>
           </div>
         </div>
 
@@ -162,8 +162,8 @@ const Landing = () => {
           </video>
           <div className="absolute w-full h-full bg-indigo-900 bg-opacity-70"></div>
           <div className="relative z-10 p-5">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2">Testimonial 2</h2>
-            <p className="text-md md:text-lg">"The weather updates and news features are incredibly useful. Obsolete is a game-changer!"</p>
+            <h2 className="text-2xl md:text-4xl font-bold mb-2">Alex Torres, Freelance Graphic Designer & Art Enthusiast</h2>
+            <p className="text-md md:text-lg">"I never thought managing my personal projects could be so effortless. Obsolete not only organizes my tasks but also inspires my creativity!"</p>
           </div>
         </div>
 
@@ -174,8 +174,8 @@ const Landing = () => {
           </video>
           <div className="absolute w-full h-full bg-indigo-900 bg-opacity-70"></div>
           <div className="relative z-10 p-5">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2">Testimonial 3</h2>
-            <p className="text-md md:text-lg">"I love how I can chat with my data in real-time. It's like having a new friend who knows everything about my business!"</p>
+            <h2 className="text-2xl md:text-4xl font-bold mb-2">Michelle Lee, Parenting Coach and Founder of Modern Moms Club</h2>
+            <p className="text-md md:text-lg">"Obsolete has transformed the way I plan my family activities. From organizing events to tracking expenses, it's been a lifesaver!"</p>
           </div>
         </div>
 
