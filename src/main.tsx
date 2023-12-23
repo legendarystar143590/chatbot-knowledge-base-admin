@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import App from './App.tsx'
 import './index.css'
 import SuspenseContent from './containers/SuspenseContent.tsx'
@@ -9,9 +10,11 @@ import { store } from './app/store.ts'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={<SuspenseContent />}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </GoogleOAuthProvider>
     </Suspense>
   </React.StrictMode>,
 )

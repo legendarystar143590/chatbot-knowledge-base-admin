@@ -15,10 +15,13 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../utils/gl
 import { AppDispatch, RootState } from "../../app/store"
 import { Assistant } from "../../utils/Type"
 import { getAssistantContent } from "./assistantsSlice"
+import { toast } from "react-toastify"
 
 type TopSidePropTypes = {
   applySearch: (value: string) => void
 }
+
+const CHAT_ENDPOINT = import.meta.env.VITE_CHAT_ENDPOINT;
 
 const TopSideButtons = ({ applySearch }: TopSidePropTypes) => {
 
@@ -88,6 +91,20 @@ function Assistants() {
     dispatch(openModal({ title: "Edit Assistant", bodyType: MODAL_BODY_TYPES.ASSISTANT_UPDATE, extraObject: assistant }))
   }
 
+  const handleAssistantShare = (id: string) => {
+    navigator.clipboard.writeText(CHAT_ENDPOINT + '/' + id);
+    toast.success("Link Copied!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    })
+  }
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center">
@@ -129,7 +146,9 @@ function Assistants() {
                       <td>
                         <div className="font-bold text-center">{l.assistant_name}</div>
                       </td>
-                      <td>{l.prompt}</td>
+                      <td>
+                        <div className="h-32 overflow-auto">{l.prompt}</div>
+                      </td>
                       <td className="w-12">
                         <div className="flex justify-center">
                           {
@@ -165,9 +184,23 @@ function Assistants() {
                       </td>
                       <td>{l.date}</td>
                       <td className="text-right">
-                        <div className="flex">
-                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentAssistant(l)}><PencilSquareIcon className="w-5" /></button>
-                          <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentAssistant(l.id)}><TrashIcon className="w-5" /></button>
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="flex">
+                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentAssistant(l)}><PencilSquareIcon className="w-5" /></button>
+                            <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentAssistant(l.id)}><TrashIcon className="w-5" /></button>
+                          </div>
+                          <button
+                            className="btn btn-sm normal-case btn-primary text-white w-16"
+                          // onClick={() => openAddNewAssistantModal()}
+                          >
+                            <span>Chat</span>
+                          </button>
+                          <button
+                            className="btn btn-sm normal-case btn-primary text-white w-16"
+                            onClick={() => handleAssistantShare(l.id)}
+                          >
+                            <span>Share</span>
+                          </button>
                         </div>
                       </td>
                     </tr>
