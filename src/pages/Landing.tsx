@@ -10,7 +10,7 @@ const Landing = () => {
         <div className="relative z-10 p-10 max-w-6xl mx-auto flex flex-col items-center justify-center">
           <h1 className="text-6xl md:text-8xl font-bold mb-4">Obsolete: The AI-Powered Data Assistant</h1>
           <p className="text-xl md:text-2xl mb-4">Chat with your data in real-time, get weather updates, news, and more!</p>
-          <a href="#/app/assistants" className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-6 px-12 rounded inline-block mt-4 text-2xl">Start Now!</a>
+          <a href="#/login" className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-6 px-12 rounded inline-block mt-4 text-2xl">Start Now!</a>
         </div>
       </div>
 
@@ -189,7 +189,7 @@ const Landing = () => {
         <div className="absolute w-full h-full bg-indigo-900 bg-opacity-70"></div>
         <div className="relative z-10 p-10 max-w-6xl mx-auto flex flex-col items-center justify-center">
           <h1 className="text-6xl md:text-8xl font-bold mb-4">Ready to Experience?</h1>
-          <a href="#/app/assistants" className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-6 px-12 rounded inline-block mt-4 text-2xl">Join the Revolution</a>
+          <a href="#/login" className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-6 px-12 rounded inline-block mt-4 text-2xl">Join the Revolution</a>
         </div>
       </div>
 
