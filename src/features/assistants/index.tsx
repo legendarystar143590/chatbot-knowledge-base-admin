@@ -189,12 +189,12 @@ function Assistants() {
                             <button className="btn btn-square btn-ghost btn-sm" onClick={() => editCurrentAssistant(l)}><PencilSquareIcon className="w-5" /></button>
                             <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentAssistant(l.id)}><TrashIcon className="w-5" /></button>
                           </div>
-                          <button
+                          <a
+                            href={CHAT_ENDPOINT + '/' + l.id} target="_blank"
                             className="btn btn-sm normal-case btn-primary text-white w-16"
-                          // onClick={() => openAddNewAssistantModal()}
                           >
-                            <span>Chat</span>
-                          </button>
+                            Chat
+                          </a>
                           <button
                             className="btn btn-sm normal-case btn-primary text-white w-16"
                             onClick={() => handleAssistantShare(l.id)}
