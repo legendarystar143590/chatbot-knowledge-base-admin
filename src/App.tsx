@@ -29,8 +29,8 @@ function App() {
 
         <Route path="/app/*" element={<Layout />} />
 
-        <Route path="/" element={<Landing />} />
-        <Route path="*" element={<Navigate to={token ? "/app/assistant" : "/"} replace />}/>
+        <Route path="/home" element={<Landing />} />
+        <Route path="*" element={<Navigate to={token ? "/app/assistant" : "/home"} replace />}/>
       </Routes>
     </Router>
   )
