@@ -53,7 +53,6 @@ function Login() {
     onSuccess: tokenResponse => {
       axios.get('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' + tokenResponse.access_token)
         .then(res => {
-          console.log(res);
           if (res.data) {
             if (!res.data.verified_email) return setErrorMessage("Please verify your email!")
 
@@ -62,7 +61,7 @@ function Login() {
               email: res.data.email,
             })
               .then(res => {
-                if (res.status === 200) {
+                if (res.status === 200 || res.status === 201) {
                   localStorage.setItem("token", res.data.result)
                   setLoading(false)
                   navigate('/app/assistants')
