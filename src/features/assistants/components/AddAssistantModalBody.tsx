@@ -20,6 +20,8 @@ const INITIAL_ASSISTANT_OBJ = {
   pinecone_environment: "",
   pinecone_api_key: "",
   use_serp: false,
+  facebook_enable: false,
+  facebook_token: ""
 }
 
 type PropTypes = {
@@ -38,7 +40,9 @@ type PropTypes = {
     pinecone_index_name: string,
     pinecone_environment: string,
     pinecone_api_key: string,
-    use_serp: boolean
+    use_serp: boolean,
+    facebook_enable: boolean,
+    facebook_token: string
   }
 }
 
@@ -65,6 +69,10 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
       if (assistant.pinecone_environment.trim() === "") return dispatch(showNotification({ message: "Pinecone Environment Required!", status: 0 }))
       if (assistant.pinecone_index_name.trim() === "") return dispatch(showNotification({ message: "Pincone Index Name Required!", status: 0 }))
       if (assistant.pinecone_api_key.trim() === "") return dispatch(showNotification({ message: "Pinecone API Key Required!", status: 0 }))
+    }
+
+    if (assistant.facebook_enable) {
+      if (assistant.facebook_token.trim() === "") return dispatch(showNotification({ message: "Token Required!", status: 0 }))
     }
 
     if (assistant.use_sql) {
@@ -195,6 +203,21 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
             <span className="label-text text-lg">Use SERP</span>
             <input type="checkbox" checked={assistant.use_serp} className="checkbox checkbox-primary" onChange={() => updateFormValue('use_serp', !assistant.use_serp)} />
           </label>
+        </div>
+
+        <div className="form-control mt-4">
+          <label className="label cursor-pointer justify-start gap-2">
+            <span className="label-text text-lg">Facebook Enable</span>
+            <input type="checkbox" checked={assistant.facebook_enable} className="checkbox checkbox-primary" onChange={() => updateFormValue('facebook_enable', !assistant.facebook_enable)} />
+          </label>
+
+          {
+            assistant.facebook_enable && (
+              <div className="flex flex-col gap-2 px-2">
+                <InputText type="text" defaultValue={assistant.facebook_token} updateType="facebook_token" containerStyle="" labelTitle="Token" updateFormValue={updateFormValue} />
+              </div>
+            )
+          }
         </div>
       </div>
       <div className="modal-action">
