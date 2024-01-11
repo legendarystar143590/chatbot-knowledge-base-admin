@@ -26,6 +26,8 @@ export const modalSlice = createSlice({
       pinecone_environment: "",
       pinecone_api_key: "",
       use_serp: false,
+      facebook_enable: false,
+      facebook_token: "",
       name: "",
       status: "",
     },
@@ -64,6 +66,8 @@ export const modalSlice = createSlice({
         pinecone_environment: "",
         pinecone_api_key: "",
         use_serp: false,
+        facebook_enable: false,
+        facebook_token: "",
         name: "",
         status: ""
       }
