@@ -135,7 +135,8 @@ function Assistants() {
                   <th className="text-center">Use <br /> SQL</th>
                   <th className="text-center">Use <br /> SERP</th>
                   <th className="text-center">Facebook</th>
-                  <th className="text-center">Date</th>
+                  <th className="text-center">Image</th>
+                  {/* <th className="text-center">Date</th> */}
                   <th className="w-12 text-right"></th>
                 </tr>
               </thead>
@@ -194,7 +195,18 @@ function Assistants() {
                           }
                         </div>
                       </td>
-                      <td>{l.date}</td>
+                      <td>
+                        <div className="flex justify-center">
+                          {
+                            l.image_enable ? (
+                              <CheckIcon className="w-8 h-8 text-accent" />
+                            ) : (
+                              <XMarkIcon className="w-8 h-8 text-secondary" />
+                            )
+                          }
+                        </div>
+                      </td>
+                      {/* <td>{l.date}</td> */}
                       <td className="text-right">
                         <div className="flex flex-col items-center gap-1">
                           <div className="flex">

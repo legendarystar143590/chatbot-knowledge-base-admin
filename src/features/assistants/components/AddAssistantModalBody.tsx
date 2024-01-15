@@ -21,7 +21,8 @@ const INITIAL_ASSISTANT_OBJ = {
   pinecone_api_key: "",
   use_serp: false,
   facebook_enable: false,
-  facebook_token: ""
+  facebook_token: "",
+  image_enable: false
 }
 
 type PropTypes = {
@@ -42,7 +43,8 @@ type PropTypes = {
     pinecone_api_key: string,
     use_serp: boolean,
     facebook_enable: boolean,
-    facebook_token: string
+    facebook_token: string,
+    image_enable: boolean,
   }
 }
 
@@ -218,6 +220,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
               </div>
             )
           }
+        </div>
+
+        <div className="form-control mt-4">
+          <label className="label cursor-pointer justify-start gap-2">
+            <span className="label-text text-lg">Image Enable</span>
+            <input type="checkbox" checked={assistant.image_enable} className="checkbox checkbox-primary" onChange={() => updateFormValue('image_enable', !assistant.image_enable)} />
+          </label>
         </div>
       </div>
       <div className="modal-action">
