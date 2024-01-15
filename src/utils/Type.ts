@@ -28,7 +28,8 @@ export type Assistant = {
   pinecone_api_key: string,
   use_serp: boolean,
   facebook_enable: boolean,
-  facebook_token: string
+  facebook_token: string,
+  image_enable: boolean,
 }
 
 export type KnowledgeBase = {

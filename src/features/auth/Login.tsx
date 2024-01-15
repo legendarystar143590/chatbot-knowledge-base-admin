@@ -40,6 +40,8 @@ function Login() {
           setLoading(false)
         })
         .catch(err => {
+          if (localStorage.getItem("token"))
+            localStorage.removeItem("token");
           console.log(err);
           setLoading(false)
           if (err.response.data.result) {
