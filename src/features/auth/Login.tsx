@@ -148,7 +148,7 @@ function Login() {
                     className="btn btn-primary mt-2 w-full"
                   >
                     <i className="fa-brands fa-facebook" />
-                    <p>SIGN IN WITH GOOGLE</p>
+                    <p>SIGN IN WITH FACEBOOK</p>
                   </button>
                 }
               />
