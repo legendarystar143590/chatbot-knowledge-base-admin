@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from "@react-oauth/google"
+import FacebookLogin from 'react-facebook-login';
+import axios from 'axios';
 // import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
-import axios from 'axios';
 
 function Login() {
 
@@ -53,6 +54,7 @@ function Login() {
 
   const handleGoogleAuth = useGoogleLogin({
     onSuccess: tokenResponse => {
+      console.log(tokenResponse)
       axios.get('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' + tokenResponse.access_token)
         .then(res => {
           if (res.data) {
@@ -82,6 +84,10 @@ function Login() {
     },
     onError: errorResponse => console.log(errorResponse),
   });
+
+  const responseFacebook = (response) => {
+    console.log(response)
+  }
 
   const updateFormValue = (updateType: string, value: string) => {
     setErrorMessage("")
@@ -126,6 +132,14 @@ function Login() {
                 <i className="fab fa-google" />
                 <p>SIGN IN WITH GOOGLE</p>
               </button>
+              <FacebookLogin
+                appId={import.meta.env.VITE_FACEBOOK_OAUTH_APP_ID}
+                fields="name,email,picture"
+                callback={responseFacebook}
+                textButton="SIGN IN WITH FACEBOOK"
+                cssClass="btn btn-primary mt-2 w-full"
+                icon="fa-brands fa-facebook"
+              />
 
               <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">SIGN UP</span></Link></div>
             </div>
