@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from "@react-oauth/google"
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import axios from 'axios';
 // import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
@@ -85,10 +85,6 @@ function Login() {
     onError: errorResponse => console.log(errorResponse),
   });
 
-  const responseFacebook = (response) => {
-    console.log(response)
-  }
-
   const updateFormValue = (updateType: string, value: string) => {
     setErrorMessage("")
     setLoginObj({ ...loginObj, [updateType]: value })
@@ -135,10 +131,26 @@ function Login() {
               <FacebookLogin
                 appId={import.meta.env.VITE_FACEBOOK_OAUTH_APP_ID}
                 fields="name,email,picture"
-                callback={responseFacebook}
-                textButton="SIGN IN WITH FACEBOOK"
-                cssClass="btn btn-primary mt-2 w-full"
-                icon="fa-brands fa-facebook"
+                onSuccess={(response) => {
+                  console.log('Login Success!', response)
+                  localStorage.setItem("token", response.accessToken)
+                  setLoading(false)
+                  navigate('/app/assistants')
+                }}
+                onFail={(error) => {
+                  console.log('Login Failed!', error);
+                }}
+                onProfileSuccess={(response) => {
+                  console.log('Get Profile Success!', response);
+                }}
+                children={
+                  <button
+                    className="btn btn-primary mt-2 w-full"
+                  >
+                    <i className="fa-brands fa-facebook" />
+                    <p>SIGN IN WITH GOOGLE</p>
+                  </button>
+                }
               />
 
               <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">SIGN UP</span></Link></div>
