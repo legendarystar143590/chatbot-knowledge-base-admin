@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from "@react-oauth/google"
-import FacebookLogin from '@greatsumini/react-facebook-login';
 import axios from 'axios';
+import {
+  // LoginSocialGoogle,
+  LoginSocialFacebook,
+  IResolveParams
+} from 'reactjs-social-login'
+
 // import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
@@ -128,30 +133,24 @@ function Login() {
                 <i className="fab fa-google" />
                 <p>SIGN IN WITH GOOGLE</p>
               </button>
-              <FacebookLogin
-                appId={import.meta.env.VITE_FACEBOOK_OAUTH_APP_ID}
-                fields="name,email,picture"
-                onSuccess={(response) => {
-                  console.log('Login Success!', response)
-                  localStorage.setItem("token", response.accessToken)
-                  setLoading(false)
-                  navigate('/app/assistants')
+
+              <LoginSocialFacebook
+                appId={import.meta.env.VITE_FACEBOOK_OAUTH_APP_ID || ''}
+                onResolve={({ data }: IResolveParams) => {
+                  console.log(data)
                 }}
-                onFail={(error) => {
-                  console.log('Login Failed!', error);
+                onReject={(err) => {
+                  console.log(err)
                 }}
-                onProfileSuccess={(response) => {
-                  console.log('Get Profile Success!', response);
-                }}
-                children={
-                  <button
-                    className="btn btn-primary mt-2 w-full"
-                  >
-                    <i className="fa-brands fa-facebook" />
-                    <p>SIGN IN WITH FACEBOOK</p>
-                  </button>
-                }
-              />
+              >
+                <button
+                  className="btn btn-primary mt-2 w-full"
+                >
+                  <i className="fa-brands fa-facebook" />
+                  <p>SIGN IN WITH FACEBOOK</p>
+                </button>
+              </LoginSocialFacebook>
+
 
               <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">SIGN UP</span></Link></div>
             </div>
