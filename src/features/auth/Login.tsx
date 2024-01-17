@@ -6,6 +6,7 @@ import {
   // LoginSocialGoogle,
   LoginSocialFacebook,
   IResolveParams
+// @ts-ignore
 } from 'reactjs-social-login'
 
 // import LandingIntro from './LandingIntro'
