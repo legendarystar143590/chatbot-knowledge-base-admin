@@ -140,6 +140,7 @@ function Login() {
                 onResolve={({ data }: IResolveParams) => {
                   console.log(data)
                 }}
+                //@ts-ignore
                 onReject={(err) => {
                   console.log(err)
                 }}
