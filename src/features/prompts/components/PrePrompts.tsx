@@ -7,7 +7,7 @@ import SearchBar from "../../../components/Input/SearchBar"
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import PencilSquareIcon from "@heroicons/react/24/outline/PencilSquareIcon"
 import PlusSmallIcon from '@heroicons/react/24/outline/PlusSmallIcon'
-import { FaceFrownIcon } from "@heroicons/react/24/outline"
+import FaceFrownIcon from "@heroicons/react/24/outline/FaceFrownIcon"
 import { openModal } from "../../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from "../../../utils/globalConstantUtil"
 import { AppDispatch, RootState } from "../../../app/store"
@@ -77,7 +77,7 @@ function PrePrompts({ assistant_id }: PropTypes) {
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = prePrompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
+    const filteredPrompts = prePrompts.filter((t) => { return t.title.toLowerCase().includes(value.toLowerCase()) || t.prompt.toLowerCase().includes(value.toLowerCase()) })
     setPrompts(filteredPrompts)
   }
 

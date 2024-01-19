@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { useDispatch } from "react-redux"
+import { FaceSmileIcon } from "@heroicons/react/24/outline"
 import InputText from '../../../components/Input/InputText'
 import { showNotification } from "../../common/headerSlice"
 import { AppDispatch } from "../../../app/store"
@@ -22,7 +23,9 @@ const INITIAL_ASSISTANT_OBJ = {
   use_serp: false,
   facebook_enable: false,
   facebook_token: "",
-  image_enable: false
+  image_enable: false,
+  user_avatar: "",
+  assistant_avatar: "",
 }
 
 type PropTypes = {
@@ -45,6 +48,8 @@ type PropTypes = {
     facebook_enable: boolean,
     facebook_token: string,
     image_enable: boolean,
+    user_avatar: string,
+    assistant_avatar: string,
   }
 }
 
@@ -146,10 +151,56 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
     setAssistant({ ...assistant, [updateType]: value })
   }
 
+  const handleUpload = (e: ChangeEvent<HTMLInputElement>, type: string) => {
+    if (e.target?.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.onloadend = function () {
+        if (type === 'assistant_avatar')
+          setAssistant({ ...assistant, assistant_avatar: reader.result as string });
+        if (type === 'user_avatar')
+          setAssistant({ ...assistant, user_avatar: reader.result as string });
+      }
+    }
+  }
+
   return (
     <>
       <div className="overflow-y-auto max-h-[65vh] p-1">
         <InputText type="text" defaultValue={assistant.assistant_name} updateType="assistant_name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
+
+        <div className="form-control w-full mt-4 flex flex-row justify-center gap-20">
+          <div>
+            <label className="label">
+              <span className="label-text text-base-content">Assistant Avatar</span>
+            </label>
+            <label
+              htmlFor="assistant_avatar_upload"
+              className="bg-transparent hover:opacity-50 text-white font-bold px-0 py-1 rounded cursor-pointer disabled:cursor-not-allowed"
+            >
+              {
+                assistant.assistant_avatar ? <img className="rounded-md w-36 h-36" src={assistant.assistant_avatar} alt="Assistant Avatar" /> : <FaceSmileIcon className="h-36 w-36" />
+              }
+            </label>
+            <input id="assistant_avatar_upload" type="file" className="hidden" accept="image/*" onChange={(e) => handleUpload(e, 'assistant_avatar')} />
+          </div>
+
+          <div>
+            <label className="label">
+              <span className="label-text text-base-content">User Avatar</span>
+            </label>
+            <label
+              htmlFor="user_avatar_upload"
+              className="bg-transparent hover:opacity-50 text-white font-bold px-0 py-1 rounded cursor-pointer disabled:cursor-not-allowed"
+            >
+              {
+                assistant.user_avatar ? <img className="rounded-md w-36 h-36" src={assistant.user_avatar} alt="User Avatar" /> : <FaceSmileIcon className="h-36 w-36" />
+              }
+            </label>
+            <input id="user_avatar_upload" type="file" className="hidden" accept="image/*" onChange={(e) => handleUpload(e, 'user_avatar')} />
+          </div>
+        </div>
 
         <div className="form-control w-full mt-4">
           <label className="label">

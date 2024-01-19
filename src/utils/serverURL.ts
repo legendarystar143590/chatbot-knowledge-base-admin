@@ -3,6 +3,9 @@ export const SERVER_ADDRESS = import.meta.env.VITE_SERVER_ENDPOINT
 export const API_Address = SERVER_ADDRESS
 
 export const PROMPT_API = {
+  GET_PROMPT: API_Address + "/prompt",    // get
+  UPDATE_PROMPT: API_Address + "/update_prompt",    // post
+
   ADD_PRE_PROMPT: API_Address + "/pre_prompt",    // post
   GET_PRE_PROMPTS: API_Address + "/pre_prompt",    // get
   DELETE_PRE_PROMPT: API_Address + "/del_pre_prompt",    // post

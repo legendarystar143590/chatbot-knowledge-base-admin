@@ -130,7 +130,8 @@ function Assistants() {
                 <tr className="text-sm">
                   <th className="text-center p-1">No</th>
                   <th className="text-center">Name</th>
-                  <th className="text-center">Prompt</th>
+                  <th className="text-center">Assistant <br /> Avatar</th>
+                  <th className="text-center">User <br /> Avatar</th>
                   <th className="text-center w-12 p-1 wrap">Use <br /> Pinecone</th>
                   <th className="text-center">Use <br /> SQL</th>
                   <th className="text-center">Use <br /> SERP</th>
@@ -149,7 +150,14 @@ function Assistants() {
                         <div className="font-bold text-center">{l.assistant_name}</div>
                       </td>
                       <td>
-                        <div className="max-h-32 overflow-auto">{l.prompt}</div>
+                        {
+                          l.assistant_avatar && <img className="rounded-md w-24 h-24" src={l.assistant_avatar} alt="Assistant Avatar" />
+                        }
+                      </td>
+                      <td>
+                        {
+                          l.user_avatar && <img className="rounded-md w-24 h-24" src={l.user_avatar} alt="User Avatar" />
+                        }
                       </td>
                       <td className="w-12">
                         <div className="flex justify-center">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../../app/store"
-import { updatePrompt } from "../../assistants/assistantsSlice"
+import { updatePrompt } from "../promptSlice"
 import { showNotification } from "../../common/headerSlice"
 
 type PropTypes = {
@@ -22,15 +22,15 @@ function Prompt({ assistant_id }: PropTypes) {
   }, [assistant_id])
 
   const handleSave = () => {
-    let newAssistant = {
-      id: assistant_id,
+    const newAssistant = {
+      assistant_id: assistant_id,
       prompt: prompt
     }
 
     dispatch(updatePrompt(newAssistant))
       .then(res => {
         if (res.payload)
-          dispatch(showNotification({ message: "Assistant Updated!", status: 1 }))
+          dispatch(showNotification({ message: "Prompt Updated!", status: 1 }))
         else dispatch(showNotification({ message: "Fail!", status: 0 }))
       })
       .catch(err => {

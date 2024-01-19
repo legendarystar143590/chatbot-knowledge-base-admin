@@ -29,6 +29,8 @@ export const modalSlice = createSlice({
       facebook_enable: false,
       facebook_token: "",
       image_enable: false,
+      user_avatar: "",
+      assistant_avatar: "",
       name: "",
       status: "",
     },
@@ -70,6 +72,8 @@ export const modalSlice = createSlice({
         facebook_enable: false,
         facebook_token: "",
         image_enable: false,
+        user_avatar: "",
+        assistant_avatar: "",
         name: "",
         status: ""
       }
