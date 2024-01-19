@@ -77,7 +77,7 @@ function CloserPrompts({ assistant_id }: PropTypes) {
 
   // Search according to name
   const applySearch = (value: string) => {
-    let filteredPrompts = closerPrompts.filter((t) => { return t.prompt.toLowerCase().includes(value.toLowerCase()) })
+    const filteredPrompts = closerPrompts.filter((t) => { return t.prompt.toLowerCase().includes(value.toLowerCase()) })
     setPrompts(filteredPrompts)
   }
 

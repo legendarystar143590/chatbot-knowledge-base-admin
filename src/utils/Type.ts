@@ -30,6 +30,8 @@ export type Assistant = {
   facebook_enable: boolean,
   facebook_token: string,
   image_enable: boolean,
+  user_avatar: string,
+  assistant_avatar: string,
 }
 
 export type KnowledgeBase = {

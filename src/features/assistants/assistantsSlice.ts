@@ -52,6 +52,8 @@ export const addNewAssistant = createAsyncThunk('/assistant/add', async (assista
     facebook_enable: assistant.facebook_enable,
     facebook_token: assistant.facebook_token,
     image_enable: assistant.image_enable,
+    user_avatar: assistant.user_avatar,
+    assistant_avatar: assistant.assistant_avatar,
   })
   return response.data;
 })
@@ -75,19 +77,8 @@ export const updateAssistant = createAsyncThunk('/assistant/update', async (assi
     facebook_enable: assistant.facebook_enable,
     facebook_token: assistant.facebook_token,
     image_enable: assistant.image_enable,
-  })
-  return response.data;
-})
-
-type PromptType = {
-  id: string,
-  prompt: string
-}
-
-export const updatePrompt = createAsyncThunk('/assistant/update', async (assistant: PromptType) => {
-  const response = await axios.post(ASSISTANT_API.UPDATE_ASSISTANT, {
-    id: assistant.id,
-    prompt: assistant.prompt,
+    user_avatar: assistant.user_avatar,
+    assistant_avatar: assistant.assistant_avatar,
   })
   return response.data;
 })
@@ -121,7 +112,9 @@ export const assistantsSlice = createSlice({
       facebook_enable: false,
       facebook_token: "",
       image_enable: false,
-      date: ""
+      date: "",
+      user_avatar: "",
+      assistant_avatar: "",
     }],
     db_test: false
   },
