@@ -222,7 +222,7 @@ function Assistants() {
                             <button className="btn btn-square btn-ghost btn-sm" onClick={() => deleteCurrentAssistant(l.id)}><TrashIcon className="w-5" /></button>
                           </div>
                           <a
-                            href={CHAT_ENDPOINT + '/' + l.id} target="_blank"
+                            href={CHAT_ENDPOINT + '/' + l.id + '/' + crypto.randomUUID()} target="_blank"
                             className="btn btn-sm normal-case btn-primary text-white w-16"
                           >
                             Chat
