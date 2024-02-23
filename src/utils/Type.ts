@@ -30,6 +30,7 @@ export type Assistant = {
   facebook_enable: boolean,
   facebook_token: string,
   image_enable: boolean,
+  weather_api: boolean,
   user_avatar: string,
   assistant_avatar: string,
 }

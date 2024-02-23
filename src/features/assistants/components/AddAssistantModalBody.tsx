@@ -24,6 +24,7 @@ const INITIAL_ASSISTANT_OBJ = {
   facebook_enable: false,
   facebook_token: "",
   image_enable: false,
+  weather_api: false,
   user_avatar: "",
   assistant_avatar: "",
 }
@@ -48,6 +49,7 @@ type PropTypes = {
     facebook_enable: boolean,
     facebook_token: string,
     image_enable: boolean,
+    weather_api: boolean,
     user_avatar: string,
     assistant_avatar: string,
   }
@@ -277,6 +279,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
           <label className="label cursor-pointer justify-start gap-2">
             <span className="label-text text-lg">Image Enable</span>
             <input type="checkbox" checked={assistant.image_enable} className="checkbox checkbox-primary" onChange={() => updateFormValue('image_enable', !assistant.image_enable)} />
+          </label>
+        </div>
+
+        <div className="form-control mt-4">
+          <label className="label cursor-pointer justify-start gap-2">
+            <span className="label-text text-lg">Weather API</span>
+            <input type="checkbox" checked={assistant.weather_api} className="checkbox checkbox-primary" onChange={() => updateFormValue('weather_api', !assistant.weather_api)} />
           </label>
         </div>
       </div>
