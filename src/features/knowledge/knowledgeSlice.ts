@@ -10,7 +10,7 @@ export const getKnowledgeContent = createAsyncThunk('/knowledge/content', async 
     headers: {
       'ngrok-skip-browser-warning': "1",
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'https://9797-156-220-22-73.ngrok-free.app.env',
+      'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
     }
   })
   return response.data;

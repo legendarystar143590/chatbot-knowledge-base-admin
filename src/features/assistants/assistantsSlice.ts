@@ -28,7 +28,7 @@ export const getAssistantContent = createAsyncThunk('/assistant/content', async 
     headers: {
       'ngrok-skip-browser-warning': "1",
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'https://9797-156-220-22-73.ngrok-free.app.env',
+      'Access-Control-Allow-Origin': import.meta.env.VITE_SERVER_ENDPOINT,
     }
   })
   return response.data;
@@ -49,6 +49,7 @@ export const addNewAssistant = createAsyncThunk('/assistant/add', async (assista
     pinecone_index_name: assistant.pinecone_index_name,
     pinecone_api_key: assistant.pinecone_api_key,
     use_serp: assistant.use_serp,
+    weather_api: assistant.weather_api,
     facebook_enable: assistant.facebook_enable,
     facebook_token: assistant.facebook_token,
     image_enable: assistant.image_enable,
@@ -74,6 +75,7 @@ export const updateAssistant = createAsyncThunk('/assistant/update', async (assi
     pinecone_index_name: assistant.pinecone_index_name,
     pinecone_api_key: assistant.pinecone_api_key,
     use_serp: assistant.use_serp,
+    weather_api: assistant.weather_api,
     facebook_enable: assistant.facebook_enable,
     facebook_token: assistant.facebook_token,
     image_enable: assistant.image_enable,
@@ -109,6 +111,7 @@ export const assistantsSlice = createSlice({
       pinecone_environment: "",
       pinecone_api_key: "",
       use_serp: false,
+      weather_api: false,
       facebook_enable: false,
       facebook_token: "",
       image_enable: false,
