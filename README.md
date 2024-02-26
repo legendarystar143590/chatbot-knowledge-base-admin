@@ -1,30 +1,26 @@
-# React + TypeScript + Vite
+# Chatbot Admin Panel
+You can create and configure your own chatbot.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Setup
+Download [Node.js](https://nodejs.org/en/download/).
+Run this followed commands:
 
-Currently, two official plugins are available:
+``` bash
+# Install dependencies (only for first time)
+npm i
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Configure .env file
+VITE_SERVER_ENDPOINT=https://6997-194-87-199-27.ngrok-free.app/
+VITE_CHAT_ENDPOINT=https://chat.obsolete.live
 
-## Expanding the ESLint configuration
+VITE_GOOGLE_OAUTH_CLIENT_ID="YOUR OWN CLIENT ID"
+VITE_GOOGLE_OAUTH_CLIENT_SECRET="YOUR OWN CLIENT SECRET"
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+VITE_FACEBOOK_OAUTH_APP_ID="YOUR OWN APP ID"
 
-- Configure the top-level `parserOptions` property like this:
+# Serve at localhost:5173
+npm run dev
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+# Build for production in the dist/ directory
+npm run build
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
