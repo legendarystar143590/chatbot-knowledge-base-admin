@@ -136,6 +136,7 @@ function Assistants() {
                   <th className="text-center">Use <br /> SQL</th>
                   <th className="text-center">Use <br /> SERP</th>
                   <th className="text-center">Facebook</th>
+                  <th className="text-center">Instagram</th>
                   <th className="text-center">Image</th>
                   <th className="text-center">Weather <br /> API</th>
                   {/* <th className="text-center">Date</th> */}
