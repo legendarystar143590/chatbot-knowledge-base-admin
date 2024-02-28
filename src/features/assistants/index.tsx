@@ -207,6 +207,17 @@ function Assistants() {
                       <td>
                         <div className="flex justify-center">
                           {
+                            l.instagram_enable ? (
+                              <CheckIcon className="w-8 h-8 text-accent" />
+                            ) : (
+                              <XMarkIcon className="w-8 h-8 text-secondary" />
+                            )
+                          }
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center">
+                          {
                             l.image_enable ? (
                               <CheckIcon className="w-8 h-8 text-accent" />
                             ) : (
