@@ -28,7 +28,7 @@ export type Assistant = {
   pinecone_api_key: string,
   use_serp: boolean,
   facebook_enable: boolean,
-  facebook_token: string,
+  instagram_enable: boolean,
   image_enable: boolean,
   weather_api: boolean,
   user_avatar: string,

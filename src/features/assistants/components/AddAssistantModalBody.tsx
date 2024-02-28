@@ -22,7 +22,7 @@ const INITIAL_ASSISTANT_OBJ = {
   pinecone_api_key: "",
   use_serp: false,
   facebook_enable: false,
-  facebook_token: "",
+  instagram_enable: false,
   image_enable: false,
   weather_api: false,
   user_avatar: "",
@@ -47,7 +47,7 @@ type PropTypes = {
     pinecone_api_key: string,
     use_serp: boolean,
     facebook_enable: boolean,
-    facebook_token: string,
+    instagram_enable: boolean,
     image_enable: boolean,
     weather_api: boolean,
     user_avatar: string,
@@ -78,10 +78,6 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
       if (assistant.pinecone_environment.trim() === "") return dispatch(showNotification({ message: "Pinecone Environment Required!", status: 0 }))
       if (assistant.pinecone_index_name.trim() === "") return dispatch(showNotification({ message: "Pincone Index Name Required!", status: 0 }))
       if (assistant.pinecone_api_key.trim() === "") return dispatch(showNotification({ message: "Pinecone API Key Required!", status: 0 }))
-    }
-
-    if (assistant.facebook_enable) {
-      if (assistant.facebook_token.trim() === "") return dispatch(showNotification({ message: "Token Required!", status: 0 }))
     }
 
     if (assistant.use_sql) {
@@ -265,14 +261,13 @@ function AddAssistantModalBody({ closeModal, extraObject }: PropTypes) {
             <span className="label-text text-lg">Facebook Enable</span>
             <input type="checkbox" checked={assistant.facebook_enable} className="checkbox checkbox-primary" onChange={() => updateFormValue('facebook_enable', !assistant.facebook_enable)} />
           </label>
+        </div>
 
-          {
-            assistant.facebook_enable && (
-              <div className="flex flex-col gap-2 px-2">
-                <InputText type="text" defaultValue={assistant.facebook_token} updateType="facebook_token" containerStyle="" labelTitle="Token" updateFormValue={updateFormValue} />
-              </div>
-            )
-          }
+        <div className="form-control mt-4">
+          <label className="label cursor-pointer justify-start gap-2">
+            <span className="label-text text-lg">Instagram Enable</span>
+            <input type="checkbox" checked={assistant.instagram_enable} className="checkbox checkbox-primary" onChange={() => updateFormValue('instagram_enable', !assistant.instagram_enable)} />
+          </label>
         </div>
 
         <div className="form-control mt-4">
